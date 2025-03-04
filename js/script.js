@@ -3,7 +3,7 @@ const generateButton = document.getElementById("generateButton");
 const topicInput = document.getElementById("topicInput");
 const quizOutput = document.getElementById("quizOutput");
 const quizQuestions = document.getElementById("quizQuestions");
-
+//test
 // Thêm đối tượng để lưu trữ các chuỗi văn bản theo ngôn ngữ
 const translations = {
   vi: {
