@@ -217,9 +217,9 @@ function displayQuestion(questions, index) {
       <div class="question-text">${question.text}</div>
       <div class="options-container">
         ${question.options.map(option => `
-          <div class="option">
-            <input type="radio" id="option${option.label}" name="question${index}" value="${option.label}">
-            <label for="option${option.label}">${option.label}) ${option.text}</label>
+          <div class="option" data-value="${option.label}">
+            <span class="option-label">${option.label}</span>
+            <span class="option-text">${option.text}</span>
           </div>
         `).join('')}
       </div>
@@ -240,10 +240,15 @@ function displayQuestion(questions, index) {
     }
   }, 1000);
 
-  // Handle user selection
-  const options = document.querySelectorAll(`input[name="question${index}"]`);
+  // Xử lý click vào option
+  const options = document.querySelectorAll('.option');
   options.forEach(option => {
-    option.addEventListener('change', () => {
+    option.addEventListener('click', () => {
+      // Xóa class selected từ tất cả options
+      options.forEach(opt => opt.classList.remove('selected'));
+      // Thêm class selected vào option được chọn
+      option.classList.add('selected');
+      // Dừng timer và hiển thị đáp án
       clearInterval(timerInterval);
       showAnswer(question, index, questions);
     });
@@ -255,12 +260,52 @@ function showAnswer(question, index, questions) {
   const lang = translations[selectedLanguage];
   const quizQuestionsDiv = document.getElementById("quizQuestions");
   
-  quizQuestionsDiv.innerHTML += `
-    <div class="answer-reveal">
-      <p>${lang.correctAnswer}: ${question.correctAnswer}</p>
-    </div>
-  `;
+  // Lấy option được chọn và tất cả options
+  const selectedOption = document.querySelector('.option.selected');
+  const options = document.querySelectorAll('.option');
+  
+  // Xác định đáp án người dùng chọn
+  const userAnswer = selectedOption ? selectedOption.dataset.value.toUpperCase() : null;
+  const correctAnswer = question.correctAnswer.toUpperCase();
+  
+  // Tạo thông báo đáp án
+  const answerMessage = selectedLanguage === 'vi' 
+    ? `<div class="answer-reveal ${userAnswer === correctAnswer ? 'correct' : 'incorrect'}">
+         <p>Đáp án đúng: ${question.correctAnswer}</p>
+         ${userAnswer 
+           ? `<p>Bạn đã chọn: ${selectedOption.dataset.value} - ${userAnswer === correctAnswer 
+               ? 'Chính xác!' 
+               : 'Chưa chính xác'}</p>` 
+           : '<p>Bạn chưa chọn đáp án</p>'}
+       </div>`
+    : `<div class="answer-reveal ${userAnswer === correctAnswer ? 'correct' : 'incorrect'}">
+         <p>Correct answer: ${question.correctAnswer}</p>
+         ${userAnswer 
+           ? `<p>Your answer: ${selectedOption.dataset.value} - ${userAnswer === correctAnswer 
+               ? 'Correct!' 
+               : 'Incorrect'}</p>` 
+           : '<p>You did not select an answer</p>'}
+       </div>`;
 
+  // Thêm thông báo đáp án vào cuối câu hỏi
+  quizQuestionsDiv.insertAdjacentHTML('beforeend', answerMessage);
+
+  // Đánh dấu màu cho option được chọn
+  if (selectedOption) {
+    if (userAnswer === correctAnswer) {
+      selectedOption.classList.add('correct-answer');
+    } else {
+      selectedOption.classList.add('wrong-answer');
+      // Tìm và đánh dấu đáp án đúng
+      options.forEach(option => {
+        if (option.dataset.value.toUpperCase() === correctAnswer) {
+          option.classList.add('correct-answer');
+        }
+      });
+    }
+  }
+
+  // Chuyển câu hỏi sau 2 giây
   setTimeout(() => {
     displayQuestion(questions, index + 1);
   }, 2000);
