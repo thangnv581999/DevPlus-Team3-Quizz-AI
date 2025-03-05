@@ -7,7 +7,19 @@
     <link rel="stylesheet" href="./css/styles.css">
   </head>
   <body>
+    <div class="popup" id="popup">
+      <div class="popup-box">
+          <h2>Enter Your Name</h2>
+          <input type="text" id="username" placeholder="Your Name">
+          <div class="buttons">
+              <button class="delete" onclick="clearInput()">Delete</button>
+              <button class="sign-in" onclick="signIn()">Sign In</button>
+          </div>
+      </div>
+    </div>
     <h1>Quiz Generator</h1>
+    <p class="username" id="displayName">User name</p>
+    <p class="grade" id="displayGrade"> 0 </p>
     <div class="controls">
       <input type="text" id="topicInput" placeholder="Nhập chủ đề của bạn..." />
       <select id="questionCount">
@@ -23,6 +35,30 @@
     </div>
     <div id="quizOutput"></div>
     <div id="quizQuestions"></div>
+    <script>
+      /*document.addEventListener("DOMContentLoaded", function() {
+            let storedName = localStorage.getItem("username");
+            if (storedName) {
+                document.getElementById("popup").style.display = "none";
+                document.getElementById("displayName").textContent = storedName;
+            }
+        });
+        
+        function signIn() {
+            let name = document.getElementById("username").value.trim();
+            if (name) {
+                localStorage.setItem("username", name);
+                document.getElementById("popup").style.display = "none";
+                document.getElementById("displayName").textContent = name;
+                alert("Welcome, " + name + "!");
+            } else {
+                alert("Please enter your name.");
+            }
+        }
+      function clearInput() {
+          document.getElementById("username").value = "";
+      }*/
+    </script>
 
     <script src="./js/script.js"></script>
   </body>

@@ -1,8 +1,44 @@
+function clearInput() {
+  document.getElementById("username").value = "";
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+  if (storedName) {
+      document.getElementById("popup").style.display = "none";
+      document.getElementById("displayName").textContent = storedName;
+  }
+});
+
+function signIn() {
+  let name = document.getElementById("username").value.trim();
+  if (name) {
+      localStorage.setItem("username", name);
+      document.getElementById("popup").style.display = "none";
+      document.getElementById("displayName").textContent = name;
+      alert("Welcome, " + name + "!");
+  } else {
+      alert("Please enter your name.");
+  }
+}
+
+function countGrade(showAnswer, time){
+  if(showAnswer){
+    grade += time; 
+    document.getElementById("displayGrade").textContent = grade;
+  }
+}
+
+function clearGrade() {
+  document.getElementById("displayGrade").textContent = 0;
+  grade = 0;
+}
+
 const apiKey = "AIzaSyChs02VvwUeRB0eoh_bf5auW0HbwH2FMco";
 const generateButton = document.getElementById("generateButton");
 const topicInput = document.getElementById("topicInput");
 const quizOutput = document.getElementById("quizOutput");
 const quizQuestions = document.getElementById("quizQuestions");
+let grade = 0;
 //testdas
 // Thêm đối tượng để lưu trữ các chuỗi văn bản theo ngôn ngữ
 const translations = {
@@ -51,6 +87,7 @@ function updateUILanguage() {
 }
 
 generateButton.addEventListener("click", async () => {
+  clearGrade();
   const topic = topicInput.value;
   const questionCount = document.getElementById("questionCount").value;
   const selectedLanguage = document.getElementById("language").value;
@@ -225,7 +262,6 @@ function displayQuestion(questions, index) {
       </div>
     </div>
   `;
-
   let timeLeft = 10;
   const timerElement = document.getElementById('timer');
   const timerInterval = setInterval(() => {
@@ -250,7 +286,10 @@ function displayQuestion(questions, index) {
       option.classList.add('selected');
       // Dừng timer và hiển thị đáp án
       clearInterval(timerInterval);
-      showAnswer(question, index, questions);
+      countGrade(showAnswer(question, index, questions),timeLeft);
+      options.forEach(opt => opt.style.pointerEvents = 'none');
+      console.log(timeLeft);
+      console.log(grade);
     });
   });
 }
@@ -290,10 +329,16 @@ function showAnswer(question, index, questions) {
   // Thêm thông báo đáp án vào cuối câu hỏi
   quizQuestionsDiv.insertAdjacentHTML('beforeend', answerMessage);
 
+  // Chuyển câu hỏi sau 2 giây
+  setTimeout(() => {
+    displayQuestion(questions, index + 1);
+  }, 2000);
+
   // Đánh dấu màu cho option được chọn
   if (selectedOption) {
     if (userAnswer === correctAnswer) {
       selectedOption.classList.add('correct-answer');
+      return true;
     } else {
       selectedOption.classList.add('wrong-answer');
       // Tìm và đánh dấu đáp án đúng
@@ -302,11 +347,7 @@ function showAnswer(question, index, questions) {
           option.classList.add('correct-answer');
         }
       });
+      return false;
     }
-  }
-
-  // Chuyển câu hỏi sau 2 giây
-  setTimeout(() => {
-    displayQuestion(questions, index + 1);
-  }, 2000);
+  } 
 } 
