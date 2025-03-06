@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz - Quiz AI</title>
+    <link rel="stylesheet" href="../css/quiz.css">
+</head>
+<body>
+    <div class="quiz-container">
+        <div class="quiz-header">
+            <h2 id="quizTitle">Quiz Title</h2>
+            <div class="quiz-info">
+                <span id="timer">Time: 00:00</span>
+                <span id="progress">Question: 1/10</span>
+            </div>
+        </div>
+        <div class="question-container">
+            <p id="questionText">Question text will appear here</p>
+            <div class="options-container" id="options">
+                <!-- Options will be dynamically added here -->
+            </div>
+        </div>
+        <div class="navigation-buttons">
+            <button id="previousBtn">Previous</button>
+            <button id="nextBtn">Next</button>
+            <button id="submitBtn" style="display: none;">Submit Quiz</button>
+        </div>
+    </div>
+    <script src="../js/quiz.js"></script>
+</body>
+</html> 

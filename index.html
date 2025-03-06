@@ -1,65 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Quiz Generator</title>
-    <link rel="stylesheet" href="./css/styles.css">
-  </head>
-  <body>
-    <div class="popup" id="popup">
-      <div class="popup-box">
-          <h2>Enter Your Name</h2>
-          <input type="text" id="username" placeholder="Your Name">
-          <div class="buttons">
-              <button class="delete" onclick="clearInput()">Delete</button>
-              <button class="sign-in" onclick="signIn()">Sign In</button>
-          </div>
-      </div>
-    </div>
-    <h1>Quiz Generator</h1>
-    <p class="username" id="displayName">User name</p>
-    <p class="grade" id="displayGrade"> 0 </p>
-    <div class="controls">
-      <input type="text" id="topicInput" placeholder="Nhập chủ đề của bạn..." />
-      <select id="questionCount">
-        <!-- thang 22024245-->
-        <option value="5">5 câu hỏi</option>
-        <option value="10">10 câu hỏi</option>
-      </select>
-      <select id="language">
-        <option value="vi">Tiếng Việt</option>
-        <option value="en">English</option>
-      </select>
-      <button id="generateButton">Tạo Quiz</button>
-    </div>
-    <div id="quizOutput"></div>
-    <div id="quizQuestions"></div>
-    <script>
-      /*document.addEventListener("DOMContentLoaded", function() {
-            let storedName = localStorage.getItem("username");
-            if (storedName) {
-                document.getElementById("popup").style.display = "none";
-                document.getElementById("displayName").textContent = storedName;
-            }
-        });
-        
-        function signIn() {
-            let name = document.getElementById("username").value.trim();
-            if (name) {
-                localStorage.setItem("username", name);
-                document.getElementById("popup").style.display = "none";
-                document.getElementById("displayName").textContent = name;
-                alert("Welcome, " + name + "!");
-            } else {
-                alert("Please enter your name.");
-            }
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz AI - Welcome</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Arial', sans-serif;
         }
-      function clearInput() {
-          document.getElementById("username").value = "";
-      }*/
-    </script>
 
-    <script src="./js/script.js"></script>
-  </body>
+        .loading {
+            color: white;
+            font-size: 1.5rem;
+            text-align: center;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #764ba2;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="loading">
+        <div class="spinner"></div>
+        <p>Loading Quiz AI...</p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check if user is logged in
+            const user = JSON.parse(localStorage.getItem('user'));
+            
+            // Redirect after a short delay (for loading animation)
+            setTimeout(() => {
+                if (user) {
+                    // If user is logged in, go to home page
+                    window.location.href = 'pages/home.html';
+                } else {
+                    // If not logged in, go to login page
+                    window.location.href = 'pages/login.html';
+                }
+            }, 1000); // 1 second delay for loading animation
+        });
+    </script>
+</body>
 </html>

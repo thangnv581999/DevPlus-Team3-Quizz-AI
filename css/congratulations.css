@@ -1,0 +1,108 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.congrats-container {
+    max-width: 600px;
+    width: 100%;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    text-align: center;
+}
+
+h1 {
+    color: #764ba2;
+    margin-bottom: 2rem;
+    font-size: 2.5rem;
+}
+
+.result-card {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 2rem;
+}
+
+.score-display {
+    margin-bottom: 2rem;
+}
+
+.score {
+    font-size: 4rem;
+    color: #764ba2;
+    font-weight: bold;
+    margin: 1rem 0;
+}
+
+.stats {
+    margin-bottom: 2rem;
+}
+
+.stats p {
+    color: #666;
+    margin: 0.5rem 0;
+    font-size: 1.1rem;
+}
+
+.buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+button {
+    padding: 12px 24px;
+    background: #764ba2;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    font-size: 1rem;
+}
+
+button:hover {
+    background: #667eea;
+}
+
+#viewAnswersBtn {
+    background: #6c757d;
+}
+
+#viewAnswersBtn:hover {
+    background: #5a6268;
+}
+
+.performance-message {
+    font-size: 1.5rem;
+    color: #764ba2;
+    margin: 1rem 0;
+    text-align: center;
+    font-weight: bold;
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+} 

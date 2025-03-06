@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Quiz AI</title>
+    <link rel="stylesheet" href="../css/home.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="home.html" class="logo-link">
+            <div class="logo">Quiz AI</div>
+        </a>
+        <div class="user-info">
+            <span id="username"></span>
+            <div class="score-display">Score: <span id="displayGrade">0</span></div>
+            <a href="about.html" class="about-link">About</a>
+            <button id="logoutBtn">Logout</button>
+        </div>
+    </nav>
+    <main class="main-content">
+        <h1>Welcome to Quiz AI</h1>
+
+        <div class="quiz-generator">
+            <div class="controls">
+                <select id="language">
+                    <option value="vi">Tiếng Việt</option>
+                    <option value="en">English</option>
+                </select>
+                <select id="questionCount">
+                    <option value="5">5 câu hỏi</option>
+                    <option value="10">10 câu hỏi</option>
+                    <option value="15">15 câu hỏi</option>
+                </select>
+                <input type="text" id="topicInput" placeholder="Nhập chủ đề của bạn...">
+                <button id="generateButton">Tạo Quiz</button>
+            </div>
+
+            <div id="quizOutput" class="quiz-output"></div>
+            <div id="quizQuestions" class="quiz-questions"></div>
+        </div>
+    </main>
+    <script src="../js/home.js"></script>
+</body>
+</html>
