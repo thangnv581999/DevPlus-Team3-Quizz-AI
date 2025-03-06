@@ -1,6 +1,7 @@
 const apiKey = "AIzaSyChs02VvwUeRB0eoh_bf5auW0HbwH2FMco";
 let grade = 0;
 
+// Object chứa các bản dịch cho tiếng Việt và tiếng Anh
 const translations = {
     vi: {
         placeholder: "Nhập chủ đề của bạn...",
@@ -24,38 +25,46 @@ const translations = {
     }
 };
 
+// Biến lưu ngôn ngữ hiện tại, mặc định là tiếng Việt
 let currentLanguage = 'vi';
 
+// Event listener khi DOM được load hoàn tất
 document.addEventListener('DOMContentLoaded', () => {
-    // Check if user is logged in
+    // Kiểm tra trạng thái đăng nhập
     const user = JSON.parse(localStorage.getItem('user'));
     if (!user) {
         window.location.href = 'login.html';
         return;
     }
 
-    // Display username
+    // Hiển thị tên người dùng
     document.getElementById('username').textContent = user.username;
 
-    // Handle logout
+    // Xử lý sự kiện đăng xuất
     document.getElementById('logoutBtn').addEventListener('click', () => {
         localStorage.removeItem('user');
         window.location.href = 'login.html';
     });
 
-    // Language change handler
+    // Xử lý sự kiện thay đổi ngôn ngữ
     document.getElementById('language').addEventListener('change', (e) => {
         currentLanguage = e.target.value;
         updateUILanguage();
     });
 
-    // Initialize UI language
+    // Khởi tạo ngôn ngữ giao diện
     updateUILanguage();
 
-    // Quiz generation handler
+    // Xử lý sự kiện tạo quiz
     document.getElementById('generateButton').addEventListener('click', generateQuiz);
 });
 
+/**
+ * Cập nhật ngôn ngữ hiển thị trên giao diện
+ * - Cập nhật placeholder cho input chủ đề
+ * - Cập nhật text cho nút tạo quiz
+ * - Cập nhật text cho dropdown số câu hỏi
+ */
 function updateUILanguage() {
     const lang = translations[currentLanguage];
     document.getElementById('topicInput').placeholder = lang.placeholder;
@@ -67,11 +76,21 @@ function updateUILanguage() {
     });
 }
 
+/**
+ * Reset điểm số về 0
+ * - Reset biến grade
+ * - Cập nhật hiển thị điểm trên giao diện
+ */
 function clearGrade() {
     document.getElementById("displayGrade").textContent = "0";
     grade = 0;
 }
 
+/**
+ * Tính và cập nhật điểm số
+ * @param {boolean} showAnswer - Kết quả trả lời (đúng/sai)
+ * @param {number} time - Thời gian còn lại khi trả lời
+ */
 function countGrade(showAnswer, time) {
     if (showAnswer) {
         grade += time;
@@ -79,6 +98,12 @@ function countGrade(showAnswer, time) {
     }
 }
 
+/**
+ * Hàm chính để tạo quiz
+ * - Lấy input từ người dùng (chủ đề, số câu hỏi)
+ * - Gọi API Gemini để sinh câu hỏi
+ * - Xử lý và hiển thị câu hỏi
+ */
 async function generateQuiz() {
     clearGrade();
     const topic = document.getElementById("topicInput").value;
@@ -89,24 +114,52 @@ async function generateQuiz() {
     const quizQuestions = document.getElementById("quizQuestions");
     
     quizOutput.innerHTML = `<div>${lang.topic}: ${topic}</div>`;
-    quizQuestions.innerHTML = '<div>Đang tạo câu hỏi...</div>';
+    quizQuestions.innerHTML = currentLanguage === 'vi' ? '<div>Đang tạo câu hỏi...</div>' : '<div>Generating questions...</div>';
 
     try {
         const promptText = currentLanguage === 'vi'
-            ? `Tạo ${questionCount} câu hỏi trắc nghiệm về chủ đề ${topic}. Mỗi câu hỏi phải có 4 lựa chọn (a, b, c, d). Format câu trả lời như sau:
-               Câu 1: [nội dung câu hỏi]
-               a) [lựa chọn a]
-               b) [lựa chọn b]
-               c) [lựa chọn c]
-               d) [lựa chọn d]
-               Đáp án: [chữ cái đáp án đúng]`
-            : `Create ${questionCount} multiple choice questions about ${topic}. Each question must have 4 options (a, b, c, d). Format the answer as follows:
-               Question 1: [question content]
-               a) [option a]
-               b) [option b]
-               c) [option c]
-               d) [option d]
-               Answer: [correct answer letter]`;
+            ? `Tạo ${questionCount} câu hỏi trắc nghiệm bằng tiếng Việt về chủ đề ${topic}. Trả về dữ liệu theo định dạng JSON với cấu trúc sau:
+               {
+                 "questions": [
+                   {
+                     "id": 1,
+                     "text": "nội dung câu hỏi bằng tiếng Việt",
+                     "options": [
+                       {"label": "a", "text": "lựa chọn a bằng tiếng Việt"},
+                       {"label": "b", "text": "lựa chọn b bằng tiếng Việt"},
+                       {"label": "c", "text": "lựa chọn c bằng tiếng Việt"},
+                       {"label": "d", "text": "lựa chọn d bằng tiếng Việt"}
+                     ],
+                     "correctAnswer": "a"
+                   }
+                 ]
+               }
+               
+               Lưu ý: 
+               - Tất cả nội dung phải được viết bằng tiếng Việt
+               - Trả về đúng định dạng JSON như trên
+               - Mỗi câu hỏi phải có đủ 4 lựa chọn a, b, c, d`
+            : `Create ${questionCount} multiple choice questions in English about ${topic}. Return data in JSON format with the following structure:
+               {
+                 "questions": [
+                   {
+                     "id": 1,
+                     "text": "question content in English",
+                     "options": [
+                       {"label": "a", "text": "option a in English"},
+                       {"label": "b", "text": "option b in English"},
+                       {"label": "c", "text": "option c in English"},
+                       {"label": "d", "text": "option d in English"}
+                     ],
+                     "correctAnswer": "a"
+                   }
+                 ]
+               }
+               
+               Note:
+               - All content must be in English
+               - Return exact JSON format as above
+               - Each question must have all 4 options a, b, c, d`;
 
         const response = await fetch(
             `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
@@ -139,24 +192,22 @@ async function generateQuiz() {
         }
 
         const quizContent = data.candidates[0].content.parts[0].text;
-        console.log('Raw AI Response:', quizContent); // Log raw AI response
-
         const questions = parseQuizContent(quizContent);
 
         if (questions.length === 0) {
             throw new Error('No questions parsed');
         }
 
-        // Log formatted questions and answers
-        console.log('Parsed Questions and Answers:');
+        // Log questions and answers in a cleaner format
+        console.log('Quiz Content:');
         questions.forEach((q, index) => {
             console.log(`\nQuestion ${index + 1}:`);
-            console.log('Question Text:', q.text);
-            console.log('Options:');
+            console.log(`${q.text}`);
             q.options.forEach(opt => {
                 console.log(`${opt.label}) ${opt.text}`);
             });
-            console.log('Correct Answer:', q.correctAnswer);
+            console.log(`Answer: ${q.correctAnswer}`);
+            console.log('------------------------');
         });
 
         displayQuestion(questions, 0);
@@ -167,56 +218,67 @@ async function generateQuiz() {
     }
 }
 
+/**
+ * Phân tích nội dung JSON từ AI thành mảng câu hỏi
+ * @param {string} content - Nội dung JSON trả về từ AI
+ * @returns {Array} Mảng các object câu hỏi đã được format
+ */
 function parseQuizContent(content) {
     try {
-        const questions = [];
-        const lines = content.split('\n').map(line => line.trim()).filter(line => line);
-        let currentQuestion = null;
+        // Cố gắng parse JSON từ response
+        const jsonData = JSON.parse(content);
+        
+        // Kiểm tra cấu trúc JSON
+        if (!jsonData.questions || !Array.isArray(jsonData.questions)) {
+            throw new Error('Invalid JSON structure');
+        }
 
-        for (let i = 0; i < lines.length; i++) {
-            const line = lines[i];
-            
-            const questionMatch = line.match(/^(Câu|Question)\s*\d+:(.+)/i);
-            if (questionMatch) {
-                if (currentQuestion) {
-                    questions.push(currentQuestion);
+        // Validate và format từng câu hỏi
+        const questions = jsonData.questions.map(q => {
+            // Kiểm tra các trường bắt buộc
+            if (!q.text || !q.options || !Array.isArray(q.options) || !q.correctAnswer) {
+                throw new Error('Invalid question format');
+            }
+
+            // Kiểm tra đủ 4 options
+            if (q.options.length !== 4) {
+                throw new Error('Each question must have exactly 4 options');
+            }
+
+            // Kiểm tra mỗi option có đủ label và text
+            q.options.forEach(opt => {
+                if (!opt.label || !opt.text) {
+                    throw new Error('Invalid option format');
                 }
-                currentQuestion = {
-                    text: questionMatch[2].trim(),
-                    options: [],
-                    correctAnswer: null
-                };
-                continue;
-            }
+            });
 
-            const optionMatch = line.match(/^([a-d])\)(.*)/i);
-            if (optionMatch && currentQuestion) {
-                currentQuestion.options.push({
-                    label: optionMatch[1],
-                    text: optionMatch[2].trim()
-                });
-                continue;
-            }
-
-            const answerMatch = line.match(/^(Đáp án|Answer):\s*([a-d])/i);
-            if (answerMatch && currentQuestion) {
-                currentQuestion.correctAnswer = answerMatch[2].toUpperCase();
-                questions.push(currentQuestion);
-                currentQuestion = null;
-            }
-        }
-
-        if (currentQuestion && currentQuestion.options.length > 0) {
-            questions.push(currentQuestion);
-        }
+            return {
+                text: q.text.trim(),
+                options: q.options.map(opt => ({
+                    label: opt.label.toLowerCase(),
+                    text: opt.text.trim()
+                })),
+                correctAnswer: q.correctAnswer.toUpperCase()
+            };
+        });
 
         return questions;
     } catch (error) {
-        console.error('Error parsing content:', error);
+        console.error('Error parsing JSON content:', error);
         return [];
     }
 }
 
+/**
+ * Hiển thị câu hỏi lên giao diện
+ * @param {Array} questions - Mảng các câu hỏi
+ * @param {number} index - Vị trí câu hỏi hiện tại
+ * Chức năng:
+ * - Hiển thị nội dung câu hỏi
+ * - Tạo timer đếm ngược
+ * - Xử lý sự kiện chọn đáp án
+ * - Chuyển trang khi hoàn thành quiz
+ */
 function displayQuestion(questions, index) {
     const lang = translations[currentLanguage];
     const quizQuestionsDiv = document.getElementById("quizQuestions");
@@ -290,6 +352,18 @@ function displayQuestion(questions, index) {
     });
 }
 
+/**
+ * Hiển thị kết quả sau khi trả lời
+ * @param {Object} question - Câu hỏi hiện tại
+ * @param {number} index - Vị trí câu hỏi
+ * @param {Array} questions - Mảng các câu hỏi
+ * @returns {boolean} Kết quả trả lời (đúng/sai)
+ * Chức năng:
+ * - Hiển thị đáp án đúng
+ * - Đánh dấu đáp án người dùng
+ * - Hiển thị thông báo kết quả
+ * - Chuyển sang câu hỏi tiếp theo
+ */
 function showAnswer(question, index, questions) {
     const lang = translations[currentLanguage];
     const quizQuestionsDiv = document.getElementById("quizQuestions");
