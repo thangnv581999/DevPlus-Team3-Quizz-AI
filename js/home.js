@@ -69,7 +69,7 @@ function updateUILanguage() {
     const lang = translations[currentLanguage];
     document.getElementById('topicInput').placeholder = lang.placeholder;
     document.getElementById('generateButton').textContent = lang.generateButton;
-    
+
     const questionSelect = document.getElementById('questionCount');
     Array.from(questionSelect.options).forEach(option => {
         option.text = `${option.value} ${lang.questionCount}`;
@@ -109,10 +109,10 @@ async function generateQuiz() {
     const topic = document.getElementById("topicInput").value;
     const questionCount = document.getElementById("questionCount").value;
     const lang = translations[currentLanguage];
-    
+
     const quizOutput = document.getElementById("quizOutput");
     const quizQuestions = document.getElementById("quizQuestions");
-    
+
     quizOutput.innerHTML = `<div>${lang.topic}: ${topic}</div>`;
     quizQuestions.innerHTML = currentLanguage === 'vi' ? '<div>Đang tạo câu hỏi...</div>' : '<div>Generating questions...</div>';
 
@@ -134,8 +134,8 @@ async function generateQuiz() {
                    }
                  ]
                }
-               
-               Lưu ý: 
+
+               Lưu ý:
                - Tất cả nội dung phải được viết bằng tiếng Việt
                - Trả về đúng định dạng JSON như trên
                - Mỗi câu hỏi phải có đủ 4 lựa chọn a, b, c, d`
@@ -155,7 +155,7 @@ async function generateQuiz() {
                    }
                  ]
                }
-               
+
                Note:
                - All content must be in English
                - Return exact JSON format as above
@@ -186,7 +186,7 @@ async function generateQuiz() {
         );
 
         const data = await response.json();
-        
+
         if (!data.candidates || !data.candidates[0]?.content?.parts[0]?.text) {
             throw new Error('Invalid API response');
         }
@@ -225,9 +225,22 @@ async function generateQuiz() {
  */
 function parseQuizContent(content) {
     try {
+        // Xử lý response có thể chứa markdown format
+        let jsonStr = content;
+
+        // Loại bỏ markdown code block nếu có
+        if (content.includes('```json')) {
+            jsonStr = content.replace(/```json\n|\n```/g, '');
+        } else if (content.includes('```')) {
+            jsonStr = content.replace(/```\n|\n```/g, '');
+        }
+
+        // Loại bỏ khoảng trắng và xuống dòng thừa
+        jsonStr = jsonStr.trim();
+
         // Cố gắng parse JSON từ response
-        const jsonData = JSON.parse(content);
-        
+        const jsonData = JSON.parse(jsonStr);
+
         // Kiểm tra cấu trúc JSON
         if (!jsonData.questions || !Array.isArray(jsonData.questions)) {
             throw new Error('Invalid JSON structure');
@@ -262,9 +275,13 @@ function parseQuizContent(content) {
             };
         });
 
+        // Log để debug
+        console.log('Parsed questions:', questions);
+
         return questions;
     } catch (error) {
         console.error('Error parsing JSON content:', error);
+        console.log('Raw content:', content); // Log nội dung gốc để debug
         return [];
     }
 }
@@ -287,7 +304,7 @@ function displayQuestion(questions, index) {
         quizQuestionsDiv.innerHTML = '<div class="error">Không có câu hỏi nào được tạo</div>';
         return;
     }
-    
+
     if (index >= questions.length) {
         // Save quiz results to localStorage
         const quizResults = {
@@ -297,14 +314,14 @@ function displayQuestion(questions, index) {
             timeSpent: questions.length * 10 - grade // Calculate total time spent
         };
         localStorage.setItem('quizResults', JSON.stringify(quizResults));
-        
+
         // Redirect to congratulations page
         window.location.href = 'congratulations.html';
         return;
     }
 
     const question = questions[index];
-    
+
     quizQuestionsDiv.innerHTML = `
         <div class="question-container">
             <div class="question-header">
@@ -333,7 +350,7 @@ function displayQuestion(questions, index) {
         if (timerElement) {
             timerElement.textContent = timeLeft;
         }
-        
+
         if (timeLeft <= 0) {
             clearInterval(timerInterval);
             showAnswer(question, index, questions);
@@ -367,28 +384,28 @@ function displayQuestion(questions, index) {
 function showAnswer(question, index, questions) {
     const lang = translations[currentLanguage];
     const quizQuestionsDiv = document.getElementById("quizQuestions");
-    
+
     const selectedOption = document.querySelector('.option.selected');
     const options = document.querySelectorAll('.option');
-    
+
     const userAnswer = selectedOption ? selectedOption.dataset.value.toUpperCase() : null;
     const correctAnswer = question.correctAnswer.toUpperCase();
-    
+
     const answerMessage = currentLanguage === 'vi'
         ? `<div class="answer-reveal ${userAnswer === correctAnswer ? 'correct' : 'incorrect'}">
              <p>Đáp án đúng: ${question.correctAnswer}</p>
-             ${userAnswer 
-               ? `<p>Bạn đã chọn: ${selectedOption.dataset.value} - ${userAnswer === correctAnswer 
-                   ? 'Chính xác!' 
-                   : 'Chưa chính xác'}</p>` 
+             ${userAnswer
+               ? `<p>Bạn đã chọn: ${selectedOption.dataset.value} - ${userAnswer === correctAnswer
+                   ? 'Chính xác!'
+                   : 'Chưa chính xác'}</p>`
                : '<p>Bạn chưa chọn đáp án</p>'}
            </div>`
         : `<div class="answer-reveal ${userAnswer === correctAnswer ? 'correct' : 'incorrect'}">
              <p>Correct answer: ${question.correctAnswer}</p>
-             ${userAnswer 
-               ? `<p>Your answer: ${selectedOption.dataset.value} - ${userAnswer === correctAnswer 
-                   ? 'Correct!' 
-                   : 'Incorrect'}</p>` 
+             ${userAnswer
+               ? `<p>Your answer: ${selectedOption.dataset.value} - ${userAnswer === correctAnswer
+                   ? 'Correct!'
+                   : 'Incorrect'}</p>`
                : '<p>You did not select an answer</p>'}
            </div>`;
 
@@ -413,4 +430,4 @@ function showAnswer(question, index, questions) {
         }
     }
     return false;
-} 
+}
