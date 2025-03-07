@@ -115,22 +115,95 @@ function countGrade(showAnswer, time) {
 }
 
 /**
+ * Hiển thị modal xác nhận
+ * @param {string} title - Tiêu đề modal
+ * @param {string} message - Nội dung thông báo
+ * @returns {Promise} Promise resolve khi người dùng chọn
+ */
+function showConfirmModal(title, message) {
+    return new Promise((resolve) => {
+        const modal = document.getElementById('confirmModal');
+        const titleEl = document.getElementById('confirmTitle');
+        const messageEl = document.getElementById('confirmMessage');
+        const yesBtn = document.getElementById('confirmYes');
+        const noBtn = document.getElementById('confirmNo');
+
+        // Cập nhật nội dung
+        titleEl.textContent = title;
+        messageEl.textContent = message;
+
+        // Hiển thị modal
+        modal.style.display = 'block';
+
+        // Xử lý sự kiện nút
+        function handleYes() {
+            modal.style.display = 'none';
+            cleanup();
+            resolve(true);
+        }
+
+        function handleNo() {
+            modal.style.display = 'none';
+            cleanup();
+            resolve(false);
+        }
+
+        function cleanup() {
+            yesBtn.removeEventListener('click', handleYes);
+            noBtn.removeEventListener('click', handleNo);
+        }
+
+        yesBtn.addEventListener('click', handleYes);
+        noBtn.addEventListener('click', handleNo);
+    });
+}
+
+/**
  * Hàm chính để tạo quiz
- * - Lấy input từ người dùng (chủ đề, số câu hỏi)
- * - Gọi API Gemini để sinh câu hỏi
- * - Xử lý và hiển thị câu hỏi
  */
 async function generateQuiz() {
-    clearGrade();
     const topic = document.getElementById("topicInput").value;
     const questionCount = document.getElementById("questionCount").value;
+    const level = document.getElementById("level").value;
+    const language = document.getElementById("language").value;
+
+    // Kiểm tra các trường input
+    if (!topic || !questionCount || !level || !language) {
+        alert(currentLanguage === 'vi' ? 'Vui lòng điền đầy đủ thông tin!' : 'Please fill in all fields!');
+        return;
+    }
+
+    const confirmTitle = currentLanguage === 'vi' ? 'Xác nhận tạo Quiz?' : 'Confirm Quiz Creation?';
+    const confirmMessage = currentLanguage === 'vi' 
+        ? `Bạn có chắc chắn muốn tạo Quiz về "${topic}" với ${questionCount} câu hỏi không?`
+        : `Are you sure you want to create a Quiz about "${topic}" with ${questionCount} questions?`;
+
+    const confirmed = await showConfirmModal(confirmTitle, confirmMessage);
+    
+    if (!confirmed) {
+        return;
+    }
+
+    // Ẩn phần tạo quiz
+    const quizGenerator = document.querySelector('.quiz-generator');
+    quizGenerator.style.display = 'none';
+
+    clearGrade();
     const lang = translations[currentLanguage];
 
-    const quizOutput = document.getElementById("quizOutput");
-    const quizQuestions = document.getElementById("quizQuestions");
-
-    quizOutput.innerHTML = `<div>${lang.topic}: ${topic}</div>`;
-    quizQuestions.innerHTML = currentLanguage === 'vi' ? '<div>Đang tạo câu hỏi...</div>' : '<div>Generating questions...</div>';
+    // Tạo container mới cho quiz
+    const mainContent = document.querySelector('.main-content');
+    const quizContainer = document.createElement('div');
+    quizContainer.id = 'quizContainer';
+    quizContainer.innerHTML = `
+        <div id="quizOutput">
+            <div>${lang.topic}: ${topic}</div>
+        </div>
+        <div id="quizQuestions">
+            ${currentLanguage === 'vi' ? '<div>Đang tạo câu hỏi...</div>' : '<div>Generating questions...</div>'}
+        </div>
+    `;
+    mainContent.appendChild(quizContainer);
 
     try {
         const promptText = currentLanguage === 'vi'
@@ -225,7 +298,7 @@ async function generateQuiz() {
             console.log(`Answer: ${q.correctAnswer}`);
             console.log('------------------------');
         });
-zzzzzazczz
+
         displayQuestion(questions, 0);
 
     } catch (error) {
