@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home - Quiz AI</title>
+    <title>Generate Questions by AI</title>
     <link rel="stylesheet" href="../css/home.css">
 </head>
 <body>
@@ -12,32 +12,47 @@
             <div class="logo">Quiz AI</div>
         </a>
         <div class="user-info">
-            <span id="username"></span>
+            <span id="username">User</span>
             <div class="score-display">Score: <span id="displayGrade">0</span></div>
             <a href="about.html" class="about-link">About</a>
             <button id="logoutBtn">Logout</button>
         </div>
     </nav>
+    
     <main class="main-content">
-        <h1>Welcome to Quiz AI</h1>
-
         <div class="quiz-generator">
+            <h1>Generate Questions by AI</h1>
             <div class="controls">
-                <select id="language">
+                <input type="text" id="topicInput" placeholder="Enter your topic..." aria-label="Topic">
+                
+                <label for="language"></label>
+                <select id="language" required>
+                    <option value="" disabled selected>Select language</option>
                     <option value="vi">Tiếng Việt</option>
                     <option value="en">English</option>
                 </select>
-                <select id="questionCount">
-                    <option value="5">5 câu hỏi</option>
-                    <option value="10">10 câu hỏi</option>
-                    <option value="15">15 câu hỏi</option>
+
+                <label for="questionCount"></label>
+                <select id="questionCount" required>
+                    <option value="" disabled selected>Number of questions</option>
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="15">15</option>
                 </select>
-                <input type="text" id="topicInput" placeholder="Nhập chủ đề của bạn...">
-                <button id="generateButton">Tạo Quiz</button>
+
+                <label for="level"></label>
+                <select id="level" required>
+                    <option value="" disabled selected>Level</option>
+                    <option value="easy">Easy</option>
+                    <option value="medium">Medium</option>
+                    <option value="hard">Hard</option>
+                </select>
             </div>
 
-            <div id="quizOutput" class="quiz-output"></div>
-            <div id="quizQuestions" class="quiz-questions"></div>
+            <div class="button-container">
+                <button id="generateButton" class="generate-btn">Generate</button>
+                <button id="historyButton" class="history-btn">History</button>
+            </div>
         </div>
     </main>
     <script src="../js/db.js"></script>
