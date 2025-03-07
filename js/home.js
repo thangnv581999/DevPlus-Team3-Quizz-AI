@@ -29,37 +29,53 @@ const translations = {
 let currentLanguage = 'vi';
 
 // Event listener khi DOM được load hoàn tất
-document.addEventListener('DOMContentLoaded', () => {
-    // Kiểm tra trạng thái đăng nhập
-    const user = JSON.parse(localStorage.getItem('user'));
-    if (!user) {
+document.addEventListener('DOMContentLoaded', async () => {
+    try {
+        const user = await getLoggedInUserManual();
+        console.log("getLoggedInUser returned:", user);
+        if (!user) {
+            console.error("Không tìm thấy user đã đăng nhập. Chuyển hướng về trang login.");
+            window.location.href = 'login.html';
+            return;
+        }
+        // Hiển thị tên người dùng
+        document.getElementById('username').textContent = user.username;
+
+        // Xử lý đăng xuất: cập nhật isLoggedIn thành false trong IndexedDB
+        document.getElementById('logoutBtn').addEventListener('click', async () => {
+            try {
+                console.log("Before logout, user object:", user);
+                user.isLoggedIn = false;
+                await updateUser(user);
+                console.log("Update logout done. User object:", user);
+                // Đọc lại từ DB để kiểm tra:
+                const updatedUser = await getUser(user.id);
+                console.log("Updated user from DB:", updatedUser);
+            } catch (error) {
+                console.error("Lỗi khi đăng xuất:", error);
+            }
+            window.location.href = 'login.html';
+        });
+    } catch (error) {
+        console.error("Lỗi khi truy xuất user:", error);
         window.location.href = 'login.html';
         return;
     }
 
-    // Hiển thị tên người dùng
-    document.getElementById('username').textContent = user.username;
-
-    // Xử lý sự kiện đăng xuất
-    document.getElementById('logoutBtn').addEventListener('click', () => {
-        localStorage.removeItem('user');
-        window.location.href = 'login.html';
-    });
-
-    // Xử lý sự kiện thay đổi ngôn ngữ
+    // Các xử lý khác (ngôn ngữ, tạo quiz, ...)
     document.getElementById('language').addEventListener('change', (e) => {
         currentLanguage = e.target.value;
         updateUILanguage();
     });
-
-    // Khởi tạo ngôn ngữ giao diện
     updateUILanguage();
-
-    // Xử lý sự kiện tạo quiz
     document.getElementById('generateButton').addEventListener('click', generateQuiz);
 });
 
-/**
+
+
+
+
+/** 
  * Cập nhật ngôn ngữ hiển thị trên giao diện
  * - Cập nhật placeholder cho input chủ đề
  * - Cập nhật text cho nút tạo quiz
@@ -209,7 +225,7 @@ async function generateQuiz() {
             console.log(`Answer: ${q.correctAnswer}`);
             console.log('------------------------');
         });
-
+zzzzzazczz
         displayQuestion(questions, 0);
 
     } catch (error) {

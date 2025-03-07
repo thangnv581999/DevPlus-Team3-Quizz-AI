@@ -44,22 +44,29 @@
         <p>Loading Quiz AI...</p>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Check if user is logged in
-            const user = JSON.parse(localStorage.getItem('user'));
-            
-            // Redirect after a short delay (for loading animation)
-            setTimeout(() => {
-                if (user) {
-                    // If user is logged in, go to home page
-                    window.location.href = 'pages/home.html';
-                } else {
-                    // If not logged in, go to login page
-                    window.location.href = 'pages/login.html';
-                }
-            }, 1000); // 1 second delay for loading animation
-        });
-    </script>
+    <!-- Import file db.js trước để có sẵn các hàm IndexedDB -->
+  <script src="js/db.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      try {
+        // Kiểm tra trạng thái đăng nhập qua IndexedDB
+        const user = await getLoggedInUserManual();
+        console.log("IndexedDB: Logged in user:", user);
+        // Sau 1 giây chuyển hướng theo trạng thái đăng nhập
+        setTimeout(() => {
+          if (user) {
+            window.location.href = 'pages/home.html';
+          } else {
+            window.location.href = 'pages/login.html';
+          }
+        }, 1000);
+      } catch (error) {
+        console.error("Error checking user in IndexedDB:", error);
+        window.location.href = 'pages/login.html';
+      }
+    });
+  </script>
+    <script src="../js/db.js"></script>
+    <script src="../js/login.js"></script>
 </body>
 </html>
