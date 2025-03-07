@@ -1,36 +1,35 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const loginForm = document.getElementById('loginForm');
+document.addEventListener("DOMContentLoaded", async () => {
+    // Đảm bảo tất cả user được logout trước khi đăng nhập
 
-    // Check if user is already logged in
-    const user = JSON.parse(localStorage.getItem('user'));
-    if (user) {
-        window.location.href = 'home.html';
-        return;
-    }
 
-    loginForm.addEventListener('submit', (e) => {
+    const loginForm = document.getElementById("loginForm");
+
+    loginForm.addEventListener("submit", async (e) => {
         e.preventDefault();
-        
-        const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
+        const username = document.getElementById("username").value.trim();
 
-        // Simple validation
-        if (!username || !password) {
-            alert('Please fill in all fields');
+        if (!username) {
+            alert("Vui lòng nhập Username");
             return;
         }
 
-        // For demo purposes, we'll accept any username/password combination
-        // Store user info in localStorage
-        const userData = {
-            username: username,
-            isLoggedIn: true,
-            loginTime: new Date().toISOString()
-        };
-        
-        localStorage.setItem('user', JSON.stringify(userData));
-        
-        // Redirect to home page (since we're in the pages directory)
-        window.location.href = 'home.html';
+        try {
+            let existingUser = await getUser(username);
+            if (!existingUser) {
+                // Nếu user chưa tồn tại, tạo mới với isLoggedIn = true
+                await addUser(username);
+                console.log("User added with isLoggedIn = true");
+            } else {
+                // Nếu user đã tồn tại, cập nhật isLoggedIn = true
+                existingUser.isLoggedIn = true;
+                existingUser.loginTime = new Date().toISOString();
+                await updateUser(existingUser);
+                console.log("User updated: set isLoggedIn = true");
+            }
+            // Chuyển hướng sang trang home
+            window.location.href = "home.html";
+        } catch (error) {
+            console.error("Error during login:", error);
+        }
     });
-}); 
+});
