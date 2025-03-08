@@ -1,0 +1,22 @@
+@keyframes gradient-move {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.animate-gradient {
+    animation: gradient-move 6s infinite alternate ease-in-out;
+}
+
+  @keyframes triple-blink {
+    0%, 6.5% { opacity: 0; }   /* Hiện */
+    6.6%, 12.5% { opacity: 1; }  /* Ẩn */
+    12.6%, 18.5% { opacity: 0; }  /* Hiện */
+    18.6%, 24.5% { opacity: 1; }  /* Ẩn */
+    24.6%, 30.5% { opacity: 0; }  /* Hiện */
+    30.6%, 100% { opacity: 1; } /* Ẩn trong 2.5 giây */
+  }
+  
+  .triple-blink {
+    animation: triple-blink 4s infinite;
+  }
