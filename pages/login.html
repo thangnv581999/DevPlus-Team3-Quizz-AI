@@ -5,16 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Quiz AI</title>
     <link rel="stylesheet" href="../css/login.css">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <div class="login-container">
-        <h1>Welcome to Quiz AI</h1>
-        <form id="loginForm">
-            <div class="form-group">
-                <input type="text" id="username" placeholder="Username" required>
-            </div>
-            <button type="submit">Login</button>
-        </form>
+<body class="font-serif bg-[url(../img/login/bg-login.png)] bg-cover max-h-screen h-screen w-screen overflow-hidden">
+    <div class="flex justify-center mt-[20vh]">
+        <div class="text-center rounded-lg bg-white bg-opacity-40 flex flex-col justify-center items-center gap-y-10 overflow-x-auto aspect-[4/3] w-[40vw] max-w-[700px] min-w-[440px]">
+            <h1 class="text-2xl xl:text-3xl mx-4">Welcome to Your Discovery Journey!</h1>
+            <form id="loginForm" class="hidden"></form>
+            <input type="text" id="username" form="loginForm" placeholder="Enter your name" required class="rounded-xl w-[70%] px-6 py-4">
+            <button type="submit" form="loginForm" class="text-2xl gradient-box bg-gradient-to-r from-[#9E55F5] via-[#829AF8F7] to-[#D1DEEC] py-3 w-[40%]"
+            >Let's start!!
+            </button>
+        </div>
     </div>
     <!-- Import file db.js trước -->
     <script src="../js/db.js"></script>

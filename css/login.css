@@ -1,63 +1,19 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Arial', sans-serif;
-}
-
-body {
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-}
-
-.login-container {
-    background: white;
-    padding: 2rem;
+.gradient-box{
+    position: relative;
+    
+    border: 2px;
+    
+    background-clip: padding-box; /* !importanté */
+    border: solid 2px transparent; /* !importanté */
     border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 400px;
 }
 
-h1 {
-    text-align: center;
-    color: #333;
-    margin-bottom: 2rem;
+.gradient-box:before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0; bottom: 0; left: 0;
+    z-index: -1;
+    margin: -2px; /* !importanté */
+    border-radius: inherit; /* !importanté */
+    background: linear-gradient(to right, #9E55F5, #829AF8F7, #D1DEEC);
 }
-
-.form-group {
-    margin-bottom: 1.5rem;
-}
-
-input {
-    width: 100%;
-    padding: 12px;
-    border: 2px solid #e1e1e1;
-    border-radius: 5px;
-    font-size: 16px;
-    transition: border-color 0.3s ease;
-}
-
-input:focus {
-    outline: none;
-    border-color: #764ba2;
-}
-
-button {
-    width: 100%;
-    padding: 12px;
-    background: #764ba2;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background 0.3s ease;
-}
-
-button:hover {
-    background: #667eea;
-} 
