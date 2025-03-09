@@ -4,27 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Congratulations - Quiz AI</title>
-    <link rel="stylesheet" href="../css/congratulations.css">
+    <link rel="stylesheet" href="../css/congratulations.css">    
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0"></script>
 </head>
 <body>
+    
     <div class="congrats-container">
-        <h1>Congratulations!</h1>
+        <!-- <h1>Congratulations!</h1> -->
         <div class="result-card">
             <div class="score-display">
                 <h2>Your Score</h2>
                 <div class="score" id="finalScore">0</div>
             </div>
             <div class="stats">
-                <p>Correct Answers: <span id="correctAnswers">0</span></p>
-                <p>Time Taken: <span id="timeTaken">0:00</span></p>
+                <table>
+                    <tr>
+                        <td>Time Taken:</td>
+                        <td id="timeTaken">0:27</td>
+                    </tr>
+                    <tr>
+                        <td>Correct Answers:</td>
+                        <td id="correctAnswers">2/5</td>
+                    </tr>
+                </table>
             </div>
             <div class="buttons">
-                <button id="viewAnswersBtn">View Answers</button>
-                <button id="returnHomeBtn">Return to Home</button>
-                <button id="tryAgainBtn">Try Again</button>
+                <button id="viewAnswersBtn">View result</button>
+                <button id="returnHomeBtn">Return Home</button>
             </div>
         </div>
     </div>
     <script src="../js/congratulations.js"></script>
+    
 </body>
 </html> 
