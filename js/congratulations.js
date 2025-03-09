@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Display results
     document.getElementById('finalScore').textContent = quizResults.score;
     document.getElementById('correctAnswers').textContent = 
-        `${quizResults.correctAnswers} / ${quizResults.totalQuestions}`;
+        `${quizResults.correctAnswers}/${quizResults.totalQuestions}`;
     
     const minutes = Math.floor(quizResults.timeSpent / 60);
     const seconds = quizResults.timeSpent % 60;
@@ -52,4 +52,25 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('viewAnswersBtn').addEventListener('click', () => {
         alert('Tính năng xem lại đáp án sẽ được cập nhật trong thời gian tới!');
     });
-}); 
+});
+/*  Confetti effect- hiệu ứng pháo hoa giấy*/  
+function launchConfettiLoop() {
+    setInterval(() => {
+        confetti({
+            particleCount: 15,
+            angle: 70,
+            spread: 55,
+            origin: { x: 0, y:0.5 }
+        });
+
+        confetti({
+            particleCount: 7,
+            angle: 120,
+            spread: 55,
+            origin: { x: 1 }
+        });
+    }, 1000); // Bắn mỗi giây
+}
+
+// Gọi hàm lặp vô hạn
+launchConfettiLoop();
