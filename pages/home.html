@@ -1,74 +1,113 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Generate Questions by AI</title>
-    <link rel="stylesheet" href="../css/home.css">
-</head>
-<body>
+    <link rel="stylesheet" href="../css/home.css" />
+  </head>
+  <body>
     <nav class="navbar">
-        <a href="home.html" class="logo-link">
-            <div class="logo">Quiz AI</div>
-        </a>
-        <div class="user-info">
-            <span id="username">User</span>
-            <div class="score-display">Score: <span id="displayGrade">0</span></div>
-            <a href="about.html" class="about-link">About</a>
-            <button id="logoutBtn">Logout</button>
-        </div>
+      <a href="home.html" class="logo-link">
+        <div class="logo">Quiz AI</div>
+      </a>
+      <div class="user-info">
+        <span id="username">User</span>
+        <div class="score-display">Score: <span id="displayGrade">0</span></div>
+        <a href="about.html" class="about-link">About</a>
+        <button id="logoutBtn">Logout</button>
+      </div>
     </nav>
-    
+
     <main class="main-content">
-        <div class="quiz-generator">
-            <h1>Generate Questions by AI</h1>
-            <div class="controls">
-                <input type="text" id="topicInput" placeholder="Enter your topic..." aria-label="Topic">
-                
-                <label for="language"></label>
-                <select id="language" required>
-                    <option value="" disabled selected>Select language</option>
-                    <option value="vi">Tiếng Việt</option>
-                    <option value="en">English</option>
-                </select>
+      <div class="quiz-generator">
+        <h1>Generate Questions by AI</h1>
+        <div class="controls">
+          <input
+            type="text"
+            id="topicInput"
+            placeholder="Enter your topic..."
+            aria-label="Topic"
+          />
 
-                <label for="questionCount"></label>
-                <select id="questionCount" required>
-                    <option value="" disabled selected>Number of questions</option>
-                    <option value="5">5</option>
-                    <option value="10">10</option>
-                    <option value="15">15</option>
-                </select>
+          <label for="language"></label>
+          <select id="language" required>
+            <option value="" disabled selected>Select language</option>
+            <option value="vi">Tiếng Việt</option>
+            <option value="en">English</option>
+            <option value="fr">France</option>
+          </select>
 
-                <label for="level"></label>
-                <select id="level" required>
-                    <option value="" disabled selected>Level</option>
-                    <option value="easy">Easy</option>
-                    <option value="medium">Medium</option>
-                    <option value="hard">Hard</option>
-                </select>
-            </div>
+          <label for="questionCount"></label>
+          <select id="questionCount" required>
+            <option value="" disabled selected>Number of questions</option>
+            <option value="5">5 questions</option>
+            <option value="7">7 questions</option>
+            <option value="10">10 questions</option>
+            <option value="15">15 questions</option>
+          </select>
 
-            <div class="button-container">
-                <button id="generateButton" class="generate-btn">Generate</button>
-                <button id="historyButton" class="history-btn">History</button>
-            </div>
+          <label for="level"></label>
+          <select id="level" required>
+            <option value="" disabled selected>Level</option>
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+          </select>
         </div>
+
+        <div class="button-container">
+          <button id="generateButton" class="generate-btn">Generate</button>
+          <button id="historyButton" class="history-btn">History</button>
+        </div>
+      </div>
     </main>
+
+    <!-- Template cho phần hiển thị câu hỏi -->
+    <template id="quiz-template">
+      <div class="quiz-container">
+        <div class="quiz-header">
+          <div class="quiz-info">
+            <div class="topic-info"></div>
+            <div class="question-counter"></div>
+          </div>
+          <div class="timer-wrapper">
+            <span class="timer-label"></span>
+            <div class="timer-display"></div>
+          </div>
+        </div>
+        <div class="question-content">
+          <h2 class="question-text"></h2>
+          <div class="options-grid">
+            <!-- Options will be dynamically inserted here -->
+          </div>
+        </div>
+        <div class="answer-feedback">
+          <div class="feedback-message"></div>
+          <div class="correct-answer"></div>
+        </div>
+        <div class="navigation-buttons">
+          <button class="nav-btn prev-btn" disabled>Previous</button>
+          <button class="nav-btn next-btn">Next</button>
+        </div>
+      </div>
+    </template>
 
     <!-- Modal xác nhận -->
     <div id="confirmModal" class="modal">
-        <div class="modal-content">
-            <h2 id="confirmTitle">Xác nhận tạo Quiz?</h2>
-            <p id="confirmMessage">Bạn có chắc chắn muốn tạo và bắt đầu làm Quiz này không?</p>
-            <div class="modal-buttons">
-                <button id="confirmYes">Có</button>
-                <button id="confirmNo">Không</button>
-            </div>
+      <div class="modal-content">
+        <h2 id="confirmTitle">Xác nhận tạo Quiz?</h2>
+        <p id="confirmMessage">
+          Bạn có chắc chắn muốn tạo và bắt đầu làm Quiz này không?
+        </p>
+        <div class="modal-buttons">
+          <button id="confirmYes">Có</button>
+          <button id="confirmNo">Không</button>
         </div>
+      </div>
     </div>
 
     <script src="../js/db.js"></script>
     <script src="../js/home.js"></script>
-</body>
+  </body>
 </html>
