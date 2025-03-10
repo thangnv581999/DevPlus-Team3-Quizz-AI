@@ -35,26 +35,24 @@ document.addEventListener('DOMContentLoaded', async () => {
             document.getElementById('correctAnswers').textContent = 
                 `${correctAnswers}/${latestQuiz.questions.length}`;
             
+            // Display time taken
             const minutes = Math.floor(latestQuiz.timeSpent / 60);
             const seconds = latestQuiz.timeSpent % 60;
             document.getElementById('timeTaken').textContent = 
                 `${minutes}:${seconds.toString().padStart(2, '0')}`;
 
-            // Add performance message based on 10-point scale
-            let performanceMessage = '';
-            if (latestQuiz.score >= 9) {
-                performanceMessage = 'Xuất sắc! 🎉';
-            } else if (latestQuiz.score >= 7) {
-                performanceMessage = 'Rất tốt! 👏';
-            } else if (latestQuiz.score >= 5) {
-                performanceMessage = 'Khá tốt! 👍';
-            } else {
-                performanceMessage = 'Hãy cố gắng hơn! 💪';
-            }
+            // Add performance message
+            let message = '';
+            if (latestQuiz.score >= 9) message = 'Xuất sắc! 🎉';
+            else if (latestQuiz.score >= 7) message = 'Rất tốt! 👏';
+            else if (latestQuiz.score >= 5) message = 'Khá tốt! 👍';
+            else message = 'Hãy cố gắng hơn! 💪';
 
-            // Add performance message to the page
             document.querySelector('.score-display').insertAdjacentHTML('afterend', 
-                `<div class="performance-message">${performanceMessage}</div>`);
+                `<div class="performance-message">${message}</div>`);
+
+            // Start confetti effect
+            launchConfetti();
         };
 
         request.onerror = (event) => {
@@ -75,24 +73,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 });
 
-/*  Confetti effect- hiệu ứng pháo hoa giấy*/  
-function launchConfettiLoop() {
-    setInterval(() => {
-        confetti({
-            particleCount: 15,
-            angle: 70,
-            spread: 55,
-            origin: { x: 0, y:0.5 }
-        });
-
-        confetti({
-            particleCount: 7,
-            angle: 120,
-            spread: 55,
-            origin: { x: 1 }
-        });
-    }, 1000); // Bắn mỗi giây
+// Confetti effect
+function launchConfetti() {
+    confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 }
+    });
 }
-
-// Gọi hàm lặp vô hạn
-launchConfettiLoop();
