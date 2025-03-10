@@ -645,11 +645,14 @@ async function submitQuiz(questions) {
 }
 
 function calculateScore(questions) {
-  let score = 0;
-  userAnswers.forEach((answer, index) => {
-    if (answer && answer.toUpperCase() === questions[index].correctAnswer.toUpperCase()) {
-      score++;
-    }
-  });
-  return score;
+    let correctCount = 0;
+    userAnswers.forEach((answer, index) => {
+        if (answer && answer.toUpperCase() === questions[index].correctAnswer.toUpperCase()) {
+            correctCount++;
+        }
+    });
+    // Convert to 10-point scale
+    const score = (correctCount / questions.length) * 10;
+    // Round to 2 decimal places
+    return Math.round(score * 100) / 100;
 }
