@@ -1,8 +1,6 @@
 .gradient-box{
     position: relative;
-    
     border: 2px;
-    
     background-clip: padding-box; /* !importanté */
     border: solid 2px transparent; /* !importanté */
     border-radius: 10px;
