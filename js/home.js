@@ -77,12 +77,15 @@ const translations = {
 
 // Biến lưu ngôn ngữ hiện tại, mặc định là tiếng Việt
 let currentLanguage = "vi";
-
+let username;
+console.log(username);
+let id;
 let currentQuestionIndex = 0;
 let userAnswers = [];
 let totalTime = 0;
 let timer = null;
 let currentTopic = "";
+let formattedQuiz;
 let questions = null; // Thêm biến để lưu trữ câu hỏi
 
 // Event listener khi DOM được load hoàn tất
@@ -99,6 +102,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
     // Hiển thị tên người dùng
     document.getElementById("username").textContent = user.username;
+    username = document.getElementById("username").textContent;
 
     // Xử lý đăng xuất: cập nhật isLoggedIn thành false trong IndexedDB
     document.getElementById("logoutBtn").addEventListener("click", async () => {
@@ -352,6 +356,7 @@ async function generateQuiz() {
 
     const quizContent = data.candidates[0].content.parts[0].text;
     const questions = parseQuizContent(quizContent);
+    console.log(questions);
 
     if (questions.length === 0) {
       throw new Error("No questions parsed");
@@ -367,6 +372,17 @@ async function generateQuiz() {
       });
       console.log(`Answer: ${q.correctAnswer}`);
       console.log("------------------------");
+    });
+
+    formattedQuiz = formatQuizData(username, questions.map(q => q.text), 
+                          questions.map(q => q.options.map(opt => opt.text)), questions.map(q => q.correctAnswer));
+
+    // Lưu vào cơ sở dữ liệu
+    addQuiz(formattedQuiz).then(result => {
+        id = result;
+        console.log("Quiz added with ID:", result);
+    }).catch(err => {
+        console.error("Error adding quiz:", err);
     });
 
     displayQuestion(questions, 0);
@@ -531,7 +547,8 @@ function displayQuestion(questions, index) {
       const options = optionsGrid.querySelectorAll('.option-item');
       options.forEach(opt => opt.classList.remove('selected'));
       optionElement.classList.add('selected');
-      userAnswers[index] = option.label;
+      userAnswers[index] = option.label.toUpperCase();
+      replaceUserSelections(id, userAnswers);
     });
     optionsGrid.appendChild(optionElement);
   });
@@ -555,13 +572,9 @@ function displayQuestion(questions, index) {
       const shouldSubmit = await showSubmitModal();
       if (shouldSubmit) {
         const score = calculateScore(questions);
-        const quizResults = {
-          score: score,
-          totalQuestions: questions.length,
-          correctAnswers: score,
-          timeSpent: questions.length * 60 - totalTime
-        };
-        localStorage.setItem('quizResults', JSON.stringify(quizResults));
+        const timeSubmit = new Date().toISOString();
+        const timeSpent = questions.length * 60 - totalTime;
+        submitQuizResult(id, score, timeSubmit, timeSpent);
         clearInterval(timer);
         window.location.href = 'congratulations.html';
       }
@@ -623,15 +636,12 @@ async function submitQuiz(questions) {
       score++;
     }
   });
-
-  const quizResults = {
-    score: score,
-    totalQuestions: questions.length,
-    correctAnswers: score,
-    timeSpent: questions.length * 60 - totalTime,
-  };
-  localStorage.setItem("quizResults", JSON.stringify(quizResults));
-  window.location.href = "congratulations.html";
+  score = calculateScore(questions);
+  const timeSubmit = new Date().toISOString();
+  const timeSpent = questions.length * 60 - totalTime;
+  submitQuizResult(id, score, timeSubmit, timeSpent);
+  clearInterval(timer);
+  window.location.href = 'congratulations.html';
 }
 
 function calculateScore(questions) {
