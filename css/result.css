@@ -1,0 +1,212 @@
+/* Background gradient */
+body {
+    font-family: Arial, sans-serif;
+    background: url('/img/bkr.png') center no-repeat;
+    background-size: cover;
+    background-attachment: fixed; /* Giữ nguyên nền khi cuộn */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-x: hidden; /* Ngăn cuộn ngang */
+    overflow-y: auto; /* Cho phép cuộn toàn trang */
+}
+
+/* Kết quả bài kiểm tra */
+.result-box {
+    font-size: 16px;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Khoảng cách giữa các hàng */
+}
+
+.result-item {
+    display: flex;
+    justify-content: space-between; /* Canh chữ giống bảng */
+    align-items: center;
+}
+
+.label {
+    flex: 1;
+}
+
+.value {
+    flex: 7;
+    text-align: left;
+}
+
+/* Container chính */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 700px;
+    padding: 20px 0;
+    gap: 5px;
+}
+
+/* Box câu hỏi */
+.question-box, .result-box, .answer-box {
+    width: 100%;
+    max-width: 600px;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 15px 20px;
+    border-radius: 10px;
+    text-align: left;
+}
+
+/* Title và nội dung câu hỏi */
+.question-box h2, 
+.question-text {
+    color: white;
+    margin: 0;
+    padding: 0;
+}
+
+
+/* Answer box */
+.answer-box {
+    background: #fca5a5;
+    margin-bottom: 2rem;
+}
+
+/* Answer options */
+.options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.option {
+    background: #ede4e4;
+    border: none;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+    text-align: left;
+
+    /* Để căn chỉnh icon */
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+}
+
+.icon {
+    position: relative; /* Để chứa 2 ảnh chồng lên nhau */
+    width: 24px;  /* Độ rộng icon */
+    height: 24px;
+}
+
+.icon img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%; /* Giúp ảnh nằm gọn trong .icon */
+    height: 100%;
+    opacity: 0; /* Ẩn mặc định */
+    transition: opacity 0.3s;
+}
+
+/* Khi muốn hiển thị đúng/sai */
+.correct .check-icon { opacity: 1; }
+.wrong .cross-icon { opacity: 1; }
+
+
+/* Finish button */
+.finish-btn {
+    display: inline-block;
+    text-decoration: none;
+    background: linear-gradient(45deg, #6329e0,#9547f4, #72a5db);    
+    color: black;
+    font-weight: bold;
+    padding: 15px 20px;
+    border-radius: 10px;
+    font-size: 16px;
+    text-align: center;
+    transition: 0.3s;
+    margin: 20px 0 40px 0;
+    width: 25%; 
+}
+
+.finish-btn:hover {
+    background: linear-gradient(45deg, #6c19e0, #204dd3);
+}
+
+/* Khu vực cuộn */
+.scroll-container {
+    max-height: 80vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    width: 100%;
+    padding: 10px;
+}
+
+/* Tùy chỉnh thanh cuộn */
+.scroll-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.scroll-container::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 4px;
+}
+
+.scroll-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* ----- Responsive cho màn hình nhỏ hơn 768px (Tablet) ----- */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+
+    .question-box, .result-box, .answer-box {
+        max-width: 100%; /* Box chiếm hết chiều rộng */
+        padding: 12px;
+    }
+
+    .result-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+
+    .label {
+        font-size: 14px;
+    }
+
+    .value {
+        font-size: 14px;
+    }
+}
+
+/* ----- Responsive cho màn hình nhỏ hơn 480px (Mobile) ----- */
+@media (max-width: 480px) {
+    .container {
+        padding: 5px;
+    }
+
+    .question-box, .result-box, .answer-box {
+        padding: 10px;
+        border-radius: 8px;
+    }
+
+    .label, .value {
+        font-size: 13px;
+    }
+
+    .finish-btn {
+        width: 100%;
+        padding: 12px;
+        font-size: 14px;
+    }
+}
