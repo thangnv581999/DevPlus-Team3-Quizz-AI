@@ -574,9 +574,7 @@ function displayQuestion(questions, index) {
         const score = calculateScore(questions);
         const timeSubmit = new Date().toISOString();
         const timeSpent = questions.length * 60 - totalTime;
-        submitQuizResult(id, score, timeSubmit, timeSpent);
-        clearInterval(timer);
-        window.location.href = 'congratulations.html';
+        await submitQuiz(questions);
       }
     }
   });
@@ -627,20 +625,12 @@ async function submitQuiz(questions) {
   clearInterval(timer);
   timer = null;
 
-  let score = 0;
-  userAnswers.forEach((answer, index) => {
-    if (
-      answer &&
-      answer.toUpperCase() === questions[index].correctAnswer.toUpperCase()
-    ) {
-      score++;
-    }
-  });
-  score = calculateScore(questions);
+  const score = calculateScore(questions);
   const timeSubmit = new Date().toISOString();
   const timeSpent = questions.length * 60 - totalTime;
-  submitQuizResult(id, score, timeSubmit, timeSpent);
-  clearInterval(timer);
+  
+  await submitQuizResult(id, score, timeSubmit, timeSpent);
+  localStorage.setItem('currentQuizId', id.toString());
   window.location.href = 'congratulations.html';
 }
 
