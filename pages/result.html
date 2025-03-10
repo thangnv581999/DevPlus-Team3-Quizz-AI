@@ -3,65 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Quiz</title>
-    <link rel="stylesheet" href="/css/result.css">
+    <title>Quiz Results - AI Quiz</title>
+    <link rel="stylesheet" href="../css/result.css">
 </head>
 <body>
     <div class="result-box">
-        <div class="result-item">
-            <span class="label">Topic</span>
-            <span class="value">HTML & CSS</span>
-        </div>
-        <div class="result-item">
-            <span class="label">Grade</span>
-            <span class="value"><strong>2</strong></span>
-        </div>
+        <!-- Quiz info will be inserted here dynamically -->
     </div>    
     <div class="container">
-        <!-- Box 1: Hiển thị câu hỏi -->
-        <div class="question-box">
-            <h2>Question 1/5</h2>
-            <p class="question-text">
-                How does HTML5 enhance web development through semantic elements, 
-                multimedia support, and form improvements?
-            </p>
-            <div class="options">
-                <button class="option">
-                    A. Defining the largest heading
-                    <span class="icon">
-                        <img class="check-icon" src="/img/result/tick.png" alt="Correct">
-                        <img class="cross-icon" src="/img/result/x.png" alt="Wrong">
-                    </span>
-                </button>                
-                <button class="option">B. Creating a hyperlink</button>
-                <button class="option">C. Displaying an image</button>
-                <button class="option">D. Writing a paragraph</button>
-            </div>
-        </div>
-        <!-- Box 2: Hiển thị đáp án -->
-        <div class="answer-box">
-            <p>The correct answer is: <strong>A. Defining the largest heading</strong></p>
-        </div>
-        <div class="question-box">
-            <h2>Question 2/5</h2>
-            <p class="question-text">
-                How does HTML5 enhance web development through semantic elements, 
-                multimedia support, and form improvements?
-            </p>
-            <div class="options">
-                <button class="option">A. Defining the largest heading</button>
-                <button class="option">B. Creating a hyperlink</button>
-                <button class="option">C. Displaying an image</button>
-                <button class="option">D. Writing a paragraph</button>
-            </div>
-        </div>
-        <!-- Box 2: Hiển thị đáp án -->
-        <div class="answer-box">
-            <p>The correct answer is: <strong>A. Defining the largest heading</strong></p>
-        </div>
+        <!-- Questions and answers will be inserted here dynamically -->
     </div>
-    <!-- Nút Finish Review ở bên ngoài -->
-    <a href="/pages/history.html" class="finish-btn">Finish Review</a>
+    <a href="home.html" class="finish-btn">Return Home</a>
 
+    <script src="../js/db.js"></script>
+    <script src="../js/result.js"></script>
 </body>
 </html>

@@ -8,55 +8,61 @@ document.addEventListener('DOMContentLoaded', async () => {
             return;
         }
 
-        // Get latest quiz for the user
+        // Get current quiz ID from localStorage
+        const currentQuizId = parseInt(localStorage.getItem('currentQuizId'));
+        if (!currentQuizId) {
+            console.error('No current quiz ID found');
+            return;
+        }
+
+        // Get quiz by ID
         const db = await openDatabase();
         const transaction = db.transaction(['Quizzes'], 'readonly');
         const quizStore = transaction.objectStore('Quizzes');
-        const index = quizStore.index('username');
-        const request = index.getAll(user.username);
+        const request = quizStore.get(currentQuizId);
 
         request.onsuccess = () => {
-            const quizzes = request.result;
-            // Get the most recent submitted quiz
-            const latestQuiz = quizzes
-                .filter(quiz => quiz.isSubmit)
-                .sort((a, b) => new Date(b.submitTime) - new Date(a.submitTime))[0];
-
-            if (!latestQuiz) {
-                console.error('No submitted quiz found');
+            const quiz = request.result;
+            if (!quiz) {
+                console.error('Quiz not found');
                 return;
             }
 
             // Display results
-            document.getElementById('finalScore').textContent = latestQuiz.score.toFixed(2);
+            document.getElementById('finalScore').textContent = quiz.score.toFixed(2);
             
             // Calculate number of correct answers
-            const correctAnswers = Math.round((latestQuiz.score / 10) * latestQuiz.questions.length);
+            const correctAnswers = Math.round((quiz.score / 10) * quiz.questions.length);
             document.getElementById('correctAnswers').textContent = 
-                `${correctAnswers}/${latestQuiz.questions.length}`;
+                `${correctAnswers}/${quiz.questions.length}`;
             
             // Display time taken
-            const minutes = Math.floor(latestQuiz.timeSpent / 60);
-            const seconds = latestQuiz.timeSpent % 60;
+            const minutes = Math.floor(quiz.timeSpent / 60);
+            const seconds = quiz.timeSpent % 60;
             document.getElementById('timeTaken').textContent = 
                 `${minutes}:${seconds.toString().padStart(2, '0')}`;
 
             // Add performance message
             let message = '';
-            if (latestQuiz.score >= 9) message = 'Xuất sắc! 🎉';
-            else if (latestQuiz.score >= 7) message = 'Rất tốt! 👏';
-            else if (latestQuiz.score >= 5) message = 'Khá tốt! 👍';
+            if (quiz.score >= 9) message = 'Xuất sắc! 🎉';
+            else if (quiz.score >= 7) message = 'Rất tốt! 👏';
+            else if (quiz.score >= 5) message = 'Khá tốt! 👍';
             else message = 'Hãy cố gắng hơn! 💪';
 
             document.querySelector('.score-display').insertAdjacentHTML('afterend', 
                 `<div class="performance-message">${message}</div>`);
 
-            // Start confetti effect
-            launchConfetti();
+            // Start continuous confetti effect
+            const confettiInterval = launchConfettiLoop();
+
+            // Cleanup confetti when leaving page
+            window.addEventListener('beforeunload', () => {
+                clearInterval(confettiInterval);
+            });
         };
 
         request.onerror = (event) => {
-            console.error('Error fetching quiz data:', event.target.error);
+            console.error('Error fetching quiz:', event.target.error);
         };
 
     } catch (error) {
@@ -69,15 +75,25 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     document.getElementById('viewAnswersBtn').addEventListener('click', () => {
-        alert('Tính năng xem lại đáp án sẽ được cập nhật trong thời gian tới!');
+        window.location.href = 'result.html';
     });
 });
 
-// Confetti effect
-function launchConfetti() {
-    confetti({
-        particleCount: 100,
-        spread: 70,
-        origin: { y: 0.6 }
-    });
+/*  Confetti effect- hiệu ứng pháo hoa giấy*/  
+function launchConfettiLoop() {
+    return setInterval(() => {
+        confetti({
+            particleCount: 15,
+            angle: 70,
+            spread: 55,
+            origin: { x: 0, y: 0.5 }
+        });
+
+        confetti({
+            particleCount: 7,
+            angle: 120,
+            spread: 55,
+            origin: { x: 1 }
+        });
+    }, 1000); // Bắn mỗi giây
 }
