@@ -1,12 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Check if user is logged in and has quiz results
-    const user = JSON.parse(localStorage.getItem('user'));
-    const quizResults = JSON.parse(localStorage.getItem('quizResults'));
     
-    if (!user || !quizResults) {
-        window.location.href = 'home.html';
-        return;
-    }
 
     // Display username
     const username = user.username;
