@@ -6,8 +6,9 @@
 }
 
 body {
-    height: 100vh;
-    background: url('/img/bkr.png')  ;
+    min-height: 100vh;
+    background: url('/img/bkr.png') center no-repeat;
+    background-size: cover;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -16,6 +17,7 @@ body {
 
 .congrats-container {
     max-width: 600px;
+    max-height: 100%;
     width: 100%;
     background: 70% blur;
     border-radius: 10px;
@@ -45,11 +47,12 @@ h2 {
     font-size: 4rem;
     background: url('/img/congrats/Annotation_2025-03-09_140121-removebg-preview.png') no-repeat center center;
     background-size: contain;
+    background-size: 120% 100%; /* Kéo dài chiều ngang */
     color: #FEC4A3;
     font-weight: bold;
     margin: 1rem auto;
-    width: 250px;
-    height: 180px;
+    width: 250px; 
+    height: 250px; 
     display: flex;
     align-items: center;
     justify-content: center;
@@ -90,7 +93,8 @@ h2 {
 button {
     padding: 12px 24px;
     background: linear-gradient(45deg,#9E55F5,#829AF8, #D1DEEC);
-    color: white;
+    color: rgb(0, 0, 0);
+    font-weight: bold;
     border: none;
     border-radius: 12px;
     cursor: pointer;
@@ -99,7 +103,7 @@ button {
 }
 
 button:hover {
-    background: #667eea;
+    background: #4a66e7;
 }
 
 #viewAnswersBtn {
@@ -108,7 +112,7 @@ button:hover {
 }
 
 #viewAnswersBtn:hover {
-    background: #667eea;
+    background: #4a66e7;
 }
 
 .performance-message {
@@ -132,3 +136,65 @@ button:hover {
         transform: translateY(0);
     }
 } 
+
+/* Responsive cho màn hình nhỏ (dưới 768px - Tablet, Mobile) */
+@media (max-width: 768px) {
+    .congrats-container {
+        max-width: 90%;
+        padding: 1.5rem;
+    }
+
+    h2 {
+        font-size: 2rem;
+    }
+
+    .score {
+        font-size: 3rem;
+        width: 200px;
+        height: 200px;
+    }
+
+    .stats table {
+        font-size: 1rem;
+    }
+
+    button {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+
+    .performance-message {
+        font-size: 1.2rem;
+    }
+}
+
+/* Responsive cho màn hình rất nhỏ (dưới 480px - Mobile) */
+@media (max-width: 480px) {
+    .congrats-container {
+        max-width: 95%;
+        padding: 1rem;
+    }
+
+    h2 {
+        font-size: 1.8rem;
+    }
+
+    .score {
+        font-size: 2.5rem;
+        width: 180px;
+        height: 180px;
+    }
+
+    .stats table {
+        font-size: 0.9rem;
+    }
+
+    button {
+        padding: 8px 16px;
+        font-size: 0.85rem;
+    }
+
+    .performance-message {
+        font-size: 1rem;
+    }
+}
