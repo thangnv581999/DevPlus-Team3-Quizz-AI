@@ -151,7 +151,7 @@ function addQuiz(quizData) {
     });
 }
 
-function formatQuizData(username, questions, answers, correctAnswers) {
+function formatQuizData(tittle, username, questions, answers, correctAnswers) {
     // Kiểm tra các tham số đầu vào
     if (!username || !Array.isArray(questions) || !Array.isArray(answers) || !Array.isArray(correctAnswers)) {
         throw new Error("Invalid input data");
@@ -160,11 +160,13 @@ function formatQuizData(username, questions, answers, correctAnswers) {
     // Tạo đối tượng quiz theo định dạng yêu cầu
     const quizData = {
         username: username,  // Người dùng đăng nhập
+        tittle: tittle,
         questions: questions, // Mảng câu hỏi
         answers: answers,     // Mảng đáp án (các mảng con cho mỗi câu hỏi)
         correctAnswers: correctAnswers,   // Mảng đáp án đúng, sẽ cập nhật sau
         userSelections: [],   // Mảng lựa chọn của người dùng, sẽ cập nhật sau
-        score: null,           // Điểm, sẽ được tính sau
+        score: null,
+        time: null,           // Điểm, sẽ được tính sau
         startTime: new Date().toISOString(),  // Thời gian bắt đầu
         submitTime: null,      // Thời gian submit, sẽ cập nhật khi người dùng nộp bài
         isSubmit: false        // Đánh dấu trạng thái submit
@@ -331,6 +333,73 @@ function submitQuizResult(quizId, score, timeSubmit, timeSpent) {
         });
     });
 }
+
+async function getQuizById(quizId) {
+    return new Promise((resolve, reject) => {
+        openDatabase()
+            .then((db) => {
+                const transaction = db.transaction(quizStore, "readonly");
+                const store = transaction.objectStore(quizStore);
+                const request = store.get(Number(quizId)); // Đảm bảo quizId là số
+
+                request.onsuccess = () => {
+                    if (request.result) {
+                        console.log("✅ Tìm thấy quiz:", request.result);
+                        resolve(request.result);
+                    } else {
+                        console.error("❌ Không tìm thấy quiz với ID:", quizId);
+                        reject(new Error(`Không tìm thấy quiz với ID: ${quizId}`));
+                    }
+                };
+
+                request.onerror = () => {
+                    console.error("❌ Lỗi truy vấn IndexedDB:", request.error);
+                    reject(request.error);
+                };
+            })
+            .catch((error) => {
+                console.error("❌ Lỗi mở database:", error);
+                reject(error);
+            });
+    });
+}
+
+async function updateQuizTime(quizId, time) {
+    return new Promise((resolve, reject) => {
+        openDatabase().then((db) => {
+            const transaction = db.transaction(quizStore, "readwrite");
+            const store = transaction.objectStore(quizStore);
+
+            // Lấy dữ liệu quiz hiện tại
+            const request = store.get(Number(quizId));
+
+            request.onsuccess = () => {
+                if (!request.result) {
+                    return reject(new Error(`❌ Không tìm thấy quiz với ID: ${quizId}`));
+                }
+
+                const quizData = request.result;
+                quizData.time = time; // Cập nhật thời gian mới
+
+                // Lưu lại dữ liệu đã cập nhật
+                const updateRequest = store.put(quizData);
+
+                updateRequest.onsuccess = () => {
+                    resolve(`✅ Đã cập nhật thời gian cho quiz ${quizId}: ${time}`);
+                };
+
+                updateRequest.onerror = () => {
+                    reject(new Error("❌ Lỗi khi cập nhật thời gian vào IndexedDB"));
+                };
+            };
+
+            request.onerror = () => {
+                reject(new Error("❌ Lỗi khi lấy dữ liệu quiz"));
+            };
+        }).catch(reject);
+    });
+}
+
 
 
 

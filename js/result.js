@@ -49,7 +49,7 @@ function displayQuizInfo(quiz) {
     resultBox.innerHTML = `
         <div class="result-item">
             <span class="label">Topic</span>
-            <span class="value">${quiz.topic || 'N/A'}</span>
+            <span class="value">${quiz.tittle || 'N/A'}</span>
         </div>
         <div class="result-item">
             <span class="label">Grade</span>
