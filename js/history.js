@@ -79,23 +79,18 @@ async function displayQuizHistory() {
         const incompleteContainer = document.getElementById("incomplete-container");
         incompleteContainer.innerHTML = incompleteQuizzes.map(quiz => `
             <ul class="w-full flex flex-wrap text-[6px] sm:text-[8px] lg:text-xs xl:text-sm 2xl:text-base">
-                <li class="w-1/4 break-all line-clamp-1 my-2 px-2" title="${quiz.questions[0]}">${quiz.questions[0]}</li>
+                <li class="w-1/4 break-all line-clamp-1 my-2 px-2" title="${quiz.tittle}">${quiz.tittle}</li>
                 <li class="w-[11%] text-center break-all line-clamp-1 my-2 px-2">-</li>
                 <li class="w-[9%] text-center break-all line-clamp-1 my-2 px-2">-</li>
                 <li class="w-[9%] text-center break-all line-clamp-1 my-2 px-2">-</li>
                 <li class="w-[9%] text-center break-all line-clamp-1 my-2 px-2">${quiz.questions.length}</li>
                 <li class="w-1/5 break-all line-clamp-1 my-2 px-2 text-center">
-                    <span class="text-gray-500">Not completed</span>
+                    <a href="home.html?quizId=${quiz.id}" class="text-blue-500 underline">Do quizz again</a>
                 </li>
                 <li class="w-[12.5%] text-center break-all line-clamp-1 my-2 px-2">${formatDate(quiz.startTime)}</li>
                 <li class="my-2 px-2">
                     <a href="#" onclick="deleteQuizHistory(${quiz.id}); return false;">
                         <img src="../img/history/trash.png" alt="" title="Delete" class="w-[1.5em] h-[1.5em]">
-                    </a>
-                </li>
-                <li class="my-2 px-2">
-                    <a href="home.html?quizId=${quiz.id}">
-                        <img src="../img/history/continue.png" alt="" title="Continue" class="w-[1.5em] h-[1.5em]">
                     </a>
                 </li>
             </ul>
@@ -105,7 +100,7 @@ async function displayQuizHistory() {
         const completeContainer = document.getElementById("complete-container");
         completeContainer.innerHTML = completeQuizzes.map(quiz => `
             <ul class="w-full flex flex-wrap text-[6px] sm:text-[8px] lg:text-xs xl:text-sm 2xl:text-base">
-                <li class="w-1/4 break-all line-clamp-1 my-2 px-2" title="${quiz.questions[0]}">${quiz.questions[0]}</li>
+                <li class="w-1/4 break-all line-clamp-1 my-2 px-2" title="${quiz.tittle}">${quiz.tittle}</li>
                 <li class="w-[11%] text-center break-all line-clamp-1 my-2 px-2">${formatTime(quiz.timeSpent)}</li>
                 <li class="w-[9%] text-center break-all line-clamp-1 my-2 px-2">${Math.round(quiz.score * quiz.questions.length / 10)}</li>
                 <li class="w-[9%] text-center break-all line-clamp-1 my-2 px-2">${quiz.score.toFixed(1)}</li>
