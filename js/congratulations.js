@@ -44,10 +44,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             // Add performance message
             let message = '';
-            if (quiz.score >= 9) message = 'Xuất sắc! 🎉';
-            else if (quiz.score >= 7) message = 'Rất tốt! 👏';
-            else if (quiz.score >= 5) message = 'Khá tốt! 👍';
-            else message = 'Hãy cố gắng hơn! 💪';
+            if (quiz.score >= 9) message = 'Excellent! 🎉';
+            else if (quiz.score >= 7) message = 'Very good! 👏';
+            else if (quiz.score >= 5) message = 'Pretty good! 👍';
+            else message = 'Keep trying! 💪';
 
             document.querySelector('.score-display').insertAdjacentHTML('afterend', 
                 `<div class="performance-message">${message}</div>`);
