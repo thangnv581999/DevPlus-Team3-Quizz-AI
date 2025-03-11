@@ -1,66 +1,92 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // Check if user is logged in and has quiz results
-    const user = JSON.parse(localStorage.getItem('user'));
-    const quizResults = JSON.parse(localStorage.getItem('quizResults'));
-    
-    if (!user || !quizResults) {
-        window.location.href = 'home.html';
-        return;
+document.addEventListener('DOMContentLoaded', async () => {
+    try {
+        // Get logged in user
+        const user = await getLoggedInUserManual();
+        if (!user) {
+            console.error('No logged in user found');
+            window.location.href = 'login.html';
+            return;
+        }
+
+        // Get current quiz ID from localStorage
+        const currentQuizId = parseInt(localStorage.getItem('currentQuizId'));
+        if (!currentQuizId) {
+            console.error('No current quiz ID found');
+            return;
+        }
+
+        // Get quiz by ID
+        const db = await openDatabase();
+        const transaction = db.transaction(['Quizzes'], 'readonly');
+        const quizStore = transaction.objectStore('Quizzes');
+        const request = quizStore.get(currentQuizId);
+
+        request.onsuccess = () => {
+            const quiz = request.result;
+            if (!quiz) {
+                console.error('Quiz not found');
+                return;
+            }
+
+            // Display results
+            document.getElementById('finalScore').textContent = quiz.score.toFixed(2);
+            
+            // Calculate number of correct answers
+            const correctAnswers = Math.round((quiz.score / 10) * quiz.questions.length);
+            document.getElementById('correctAnswers').textContent = 
+                `${correctAnswers}/${quiz.questions.length}`;
+            
+            // Display time taken
+            const minutes = Math.floor(quiz.timeSpent / 60);
+            const seconds = quiz.timeSpent % 60;
+            document.getElementById('timeTaken').textContent = 
+                `${minutes}:${seconds.toString().padStart(2, '0')}`;
+
+            // Add performance message
+            let message = '';
+            if (quiz.score >= 9) message = 'Xuất sắc! 🎉';
+            else if (quiz.score >= 7) message = 'Rất tốt! 👏';
+            else if (quiz.score >= 5) message = 'Khá tốt! 👍';
+            else message = 'Hãy cố gắng hơn! 💪';
+
+            document.querySelector('.score-display').insertAdjacentHTML('afterend', 
+                `<div class="performance-message">${message}</div>`);
+
+            // Start continuous confetti effect
+            const confettiInterval = launchConfettiLoop();
+
+            // Cleanup confetti when leaving page
+            window.addEventListener('beforeunload', () => {
+                clearInterval(confettiInterval);
+            });
+        };
+
+        request.onerror = (event) => {
+            console.error('Error fetching quiz:', event.target.error);
+        };
+
+    } catch (error) {
+        console.error('Error:', error);
     }
-
-    // Display username
-    const username = user.username;
-
-    // Calculate percentage score
-    const percentageScore = Math.round((quizResults.correctAnswers / quizResults.totalQuestions) * 100);
-    
-    // Display results
-    document.getElementById('finalScore').textContent = quizResults.score;
-    document.getElementById('correctAnswers').textContent = 
-        `${quizResults.correctAnswers}/${quizResults.totalQuestions}`;
-    
-    const minutes = Math.floor(quizResults.timeSpent / 60);
-    const seconds = quizResults.timeSpent % 60;
-    document.getElementById('timeTaken').textContent = 
-        `${minutes}:${seconds.toString().padStart(2, '0')}`;
-
-    // Add performance message based on score
-    let performanceMessage = '';
-    if (percentageScore >= 90) {
-        performanceMessage = 'Xuất sắc! 🎉';
-    } else if (percentageScore >= 70) {
-        performanceMessage = 'Rất tốt! 👏';
-    } else if (percentageScore >= 50) {
-        performanceMessage = 'Khá tốt! 👍';
-    } else {
-        performanceMessage = 'Hãy cố gắng hơn! 💪';
-    }
-
-    // Add performance message to the page
-    document.querySelector('.score-display').insertAdjacentHTML('afterend', 
-        `<div class="performance-message">${performanceMessage}</div>`);
 
     // Button handlers
     document.getElementById('returnHomeBtn').addEventListener('click', () => {
         window.location.href = 'home.html';
     });
 
-    document.getElementById('tryAgainBtn').addEventListener('click', () => {
-        window.location.href = 'home.html';
-    });
-
     document.getElementById('viewAnswersBtn').addEventListener('click', () => {
-        alert('Tính năng xem lại đáp án sẽ được cập nhật trong thời gian tới!');
+        window.location.href = 'result.html';
     });
 });
+
 /*  Confetti effect- hiệu ứng pháo hoa giấy*/  
 function launchConfettiLoop() {
-    setInterval(() => {
+    return setInterval(() => {
         confetti({
             particleCount: 15,
             angle: 70,
             spread: 55,
-            origin: { x: 0, y:0.5 }
+            origin: { x: 0, y: 0.5 }
         });
 
         confetti({
@@ -71,6 +97,3 @@ function launchConfettiLoop() {
         });
     }, 1000); // Bắn mỗi giây
 }
-
-// Gọi hàm lặp vô hạn
-launchConfettiLoop();

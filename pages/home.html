@@ -14,12 +14,14 @@
       <div class="user-info">
         <span id="username">User</span>
         <div class="score-display">Score: <span id="displayGrade">0</span></div>
-        <a href="about.html" class="about-link">About</a>
+        <a href="history.html" class="about-link">History</a>
         <button id="logoutBtn">Logout</button>
       </div>
     </nav>
 
-    <main class="main-content">
+    <main class="main-content"></main>
+
+    <div class="main-content-1">
       <div class="quiz-generator">
         <h1>Generate Questions by AI</h1>
         <div class="controls">
@@ -61,23 +63,23 @@
           <button id="historyButton" class="history-btn">History</button>
         </div>
       </div>
-    </main>
+    </div>
+
+    
 
     <!-- Template cho phần hiển thị câu hỏi -->
     <template id="quiz-template">
       <div class="quiz-container">
         <div class="quiz-header">
-          <div class="quiz-info">
-            <div class="topic-info"></div>
-            <div class="question-counter"></div>
-          </div>
+          <div class="topic-info"></div>
           <div class="timer-wrapper">
             <span class="timer-label"></span>
             <div class="timer-display"></div>
           </div>
         </div>
+        <div class="question-counter"></div>
         <div class="question-content">
-          <h2 class="question-text"></h2>
+          <p class="question-text"></p>
           <div class="options-grid">
             <!-- Options will be dynamically inserted here -->
           </div>
@@ -87,8 +89,8 @@
           <div class="correct-answer"></div>
         </div>
         <div class="navigation-buttons">
-          <button class="nav-btn prev-btn" disabled>Previous</button>
-          <button class="nav-btn next-btn">Next</button>
+          <button class="nav-btn prev-btn gradient-box" disabled>Previous</button>
+          <button class="nav-btn next-btn gradient-box">Next</button>
         </div>
       </div>
     </template>

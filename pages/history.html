@@ -9,364 +9,99 @@
   <body
     class="font-serif bg-[url(../img/history/history-bg.png)] bg-cover h-screen w-screen overflow-x-hidden"
   >
-    <!-- NAVBAR -->
-    <div class="w-full bg-white/50">
+    <div class="flex justify-center h-16 w-screen bg-white/50">
       <nav
-        class="flex items-center justify-between px-5 md:px-10 h-16 max-w-[1400px] mx-auto"
+        class="bg-opacity-0 flex flex-wrap items-center justify-between h-16 w-full max-w-[1400px] mb-1 px-10"
       >
-        <!-- Logo -->
-        <div class="text-2xl md:text-3xl text-[#6F20DFF7] font-bold">
-          <a href="home.html">AI Quiz</a>
-        </div>
-
-        <!-- Menu Items (Desktop) -->
-        <div class="hidden md:flex gap-10 text-sm md:text-lg">
-          <span>User: <a href="#" class="text-blue-600">Username</a></span>
-          <span><a href="about.html" class="hover:underline">About</a></span>
+        <div>
+          <span class="text-3xl text-[#6F20DFF7] font-bold">
+            <a href="home.html">AI Quiz</a>
+          </span>
           <span
-            ><a href="#" class="hover:underline text-red-500">Log out</a></span
+            class="text-xl text-[#6F20DFF7] border-l-[3px] border-black/10 p-2"
           >
+            HISTORY
+          </span>
         </div>
-
-        <!-- Mobile Menu Button -->
-        <div class="md:hidden">
-          <button id="menuToggle" class="text-2xl">☰</button>
+        <div
+          class="text-sm sm:text-xl whitespace-nowrap flex gap-14 overflow-x-auto w-auto"
+        >
+          <span>
+            User:
+            <a href="#" id="username">Username</a>
+          </span>
+          <span>
+            <a href="about.html">About</a>
+          </span>
+          <span>
+            <a href="#" id="logoutBtn">Log out</a>
+          </span>
         </div>
       </nav>
-
-      <!-- Mobile Menu -->
-      <div
-        id="mobileMenu"
-        class="hidden md:hidden flex flex-col text-center bg-white/90 w-full p-3 shadow-md"
-      >
-        <a href="#">User: Username</a>
-        <a href="about.html">About</a>
-        <a href="#" class="text-red-500">Log out</a>
-      </div>
     </div>
 
-    <!-- CHIA ĐÔI LỊCH SỬ -->
     <div
-      class="grid grid-cols-1 md:grid-cols-2 gap-5 p-5 max-w-[1400px] mx-auto"
+      class="relative h-screen max-h-[1400px] w-full max-w-[1400px] mt-[50px] mx-auto"
     >
-      <!-- INCOMPLETE -->
-      <div class="relative z-10 border bg-white/70 rounded p-5">
-        <p class="text-[#FB3D3D] font-bold text-lg md:text-xl">INCOMPLETE</p>
-        <hr class="h-[2px] bg-black border-0" />
-        <div class="w-full overflow-x-auto">
-          <table
-            class="w-full text-xs md:text-sm lg:text-base text-center border-collapse"
+      <div
+        class="relative z-10 border bg-white/70 rounded mx-4 sm:mx-6 lg:mx-16 xl:mx-24 2xl:mx-28"
+      >
+        <div class="h-[45vh] max-h-[700px] w-full">
+          <p
+            class="text-[#FB3D3D] font-bold px-2 text-lg lg:text-xl xl:text-2xl 2xl:3xl"
           >
-            <thead>
-              <tr class="bg-gray-300">
-                <th class="p-2">Title</th>
-                <th class="p-2">Time</th>
-                <th class="p-2">Correct</th>
-                <th class="p-2">Question</th>
-                <th class="p-2">Link</th>
-                <th class="p-2">Date</th>
-                <th class="p-2">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="border-b">
-                <td class="p-2 break-words">Title</td>
-                <td class="p-2">Time</td>
-                <td class="p-2">-</td>
-                <td class="p-2">Question</td>
-                <td class="p-2 text-blue-500"><a href="#">Google</a></td>
-                <td class="p-2">Date</td>
-                <td class="p-2 flex justify-center gap-2">
-                  <img
-                    src="../img/history/trash.png"
-                    alt="Delete"
-                    class="w-6 h-6 cursor-pointer"
-                  />
-                  <img
-                    src="../img/history/continue.png"
-                    alt="Review"
-                    class="w-6 h-6 cursor-pointer"
-                  />
-                </td>
-              </tr>
-              <tr class="border-b">
-                <td class="p-2 break-words">Title</td>
-                <td class="p-2">Time</td>
-                <td class="p-2">-</td>
-                <td class="p-2">Question</td>
-                <td class="p-2 text-blue-500"><a href="#">Google</a></td>
-                <td class="p-2">Date</td>
-                <td class="p-2 flex justify-center gap-2">
-                  <img
-                    src="../img/history/trash.png"
-                    alt="Delete"
-                    class="w-6 h-6 cursor-pointer"
-                  />
-                  <img
-                    src="../img/history/continue.png"
-                    alt="Review"
-                    class="w-6 h-6 cursor-pointer"
-                  />
-                </td>
-              </tr>
-              <tr class="border-b">
-                <td class="p-2 break-words">Title</td>
-                <td class="p-2">Time</td>
-                <td class="p-2">-</td>
-                <td class="p-2">Question</td>
-                <td class="p-2 text-blue-500"><a href="#">Google</a></td>
-                <td class="p-2">Date</td>
-                <td class="p-2 flex justify-center gap-2">
-                  <img
-                    src="../img/history/trash.png"
-                    alt="Delete"
-                    class="w-6 h-6 cursor-pointer"
-                  />
-                  <img
-                    src="../img/history/continue.png"
-                    alt="Review"
-                    class="w-6 h-6 cursor-pointer"
-                  />
-                </td>
-              </tr>
-              <tr class="border-b">
-                <td class="p-2 break-words">Title</td>
-                <td class="p-2">Time</td>
-                <td class="p-2">-</td>
-                <td class="p-2">Question</td>
-                <td class="p-2 text-blue-500"><a href="#">Google</a></td>
-                <td class="p-2">Date</td>
-                <td class="p-2 flex justify-center gap-2">
-                  <img
-                    src="../img/history/trash.png"
-                    alt="Delete"
-                    class="w-6 h-6 cursor-pointer"
-                  />
-                  <img
-                    src="../img/history/continue.png"
-                    alt="Review"
-                    class="w-6 h-6 cursor-pointer"
-                  />
-                </td>
-              </tr>
-              <tr class="border-b">
-                <td class="p-2 break-words">Title</td>
-                <td class="p-2">Time</td>
-                <td class="p-2">-</td>
-                <td class="p-2">Question</td>
-                <td class="p-2 text-blue-500"><a href="#">Google</a></td>
-                <td class="p-2">Date</td>
-                <td class="p-2 flex justify-center gap-2">
-                  <img
-                    src="../img/history/trash.png"
-                    alt="Delete"
-                    class="w-6 h-6 cursor-pointer"
-                  />
-                  <img
-                    src="../img/history/continue.png"
-                    alt="Review"
-                    class="w-6 h-6 cursor-pointer"
-                  />
-                </td>
-              </tr>
-              <tr class="border-b">
-                <td class="p-2 break-words">Title</td>
-                <td class="p-2">Time</td>
-                <td class="p-2">-</td>
-                <td class="p-2">Question</td>
-                <td class="p-2 text-blue-500"><a href="#">Google</a></td>
-                <td class="p-2">Date</td>
-                <td class="p-2 flex justify-center gap-2">
-                  <img
-                    src="../img/history/trash.png"
-                    alt="Delete"
-                    class="w-6 h-6 cursor-pointer"
-                  />
-                  <img
-                    src="../img/history/continue.png"
-                    alt="Review"
-                    class="w-6 h-6 cursor-pointer"
-                  />
-                </td>
-              </tr>
-            </tbody>
-          </table>
+            INCOMPLETE
+          </p>
+          <hr class="h-[2px] xl:h-1 bg-black border-0" />
+          <div
+            class="w-full flex whitespace-nowrap text-center text-[8px] sm:text-xs lg:text-sm xl:text-base 2xl:lg"
+          >
+            <span class="w-1/4 py-1">Title</span>
+            <span class="border-l border-black w-[11%] p-1">Taken-time</span>
+            <span class="border-l border-black w-[9%] p-1">Correct</span>
+            <span class="border-l border-black w-[9%] p-1">Score</span>
+            <span class="border-l border-black w-[9%] p-1">Question</span>
+            <span class="border-l border-black w-1/5 py-1">Link</span>
+            <span class="border-l border-black w-[12.5%] py-1">Date</span>
+          </div>
+          <hr class="h-[1px] bg-black border-0" />
+          <div
+            id="incomplete-container"
+            class="w-full h-[40vh] max-h-[calc(100%-100px)] overflow-y-auto"
+          >
+            <!-- Incomplete quizzes will be inserted here -->
+          </div>
         </div>
-      </div>
-
-      <!-- COMPLETE -->
-      <div class="relative z-10 border bg-white/70 rounded p-5">
-        <p class="text-green-500 font-bold text-lg md:text-xl">COMPLETE</p>
-        <hr class="h-[2px] bg-black border-0" />
-        <div class="w-full overflow-x-auto">
-          <table
-            class="w-full text-xs md:text-sm lg:text-base text-center border-collapse"
+        <div class="h-[45vh] max-h-[700px] w-full">
+          <p
+            class="text-green-500 font-bold px-2 text-sm text-base lg:text-lg xl:text-2xl 2xl:3xl"
           >
-            <thead>
-              <tr class="bg-gray-300">
-                <th class="p-2">Title</th>
-                <th class="p-2">Time</th>
-                <th class="p-2">Correct</th>
-                <th class="p-2">Question</th>
-                <th class="p-2">Link</th>
-                <th class="p-2">Date</th>
-                <th class="p-2">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="border-b">
-                <td class="p-2">Title</td>
-                <td class="p-2">Time</td>
-                <td class="p-2">5</td>
-                <td class="p-2">10</td>
-                <td class="p-2 text-blue-500"><a href="#">Google</a></td>
-                <td class="p-2">Date</td>
-                <td class="p-2 flex justify-center gap-2">
-                  <img
-                    src="../img/history/trash.png"
-                    alt="Delete"
-                    class="w-6 h-6 cursor-pointer"
-                  />
-                  <img
-                    src="../img/history/review.png"
-                    alt="View"
-                    class="w-6 h-6 cursor-pointer"
-                  />
-                </td>
-              </tr>
-              <tr class="border-b">
-                <td class="p-2 break-words">Title</td>
-                <td class="p-2">Time</td>
-                <td class="p-2">-</td>
-                <td class="p-2">Question</td>
-                <td class="p-2 text-blue-500"><a href="#">Google</a></td>
-                <td class="p-2">Date</td>
-                <td class="p-2 flex justify-center gap-2">
-                  <img
-                    src="../img/history/trash.png"
-                    alt="Delete"
-                    class="w-6 h-6 cursor-pointer"
-                  />
-                  <img
-                    src="../img/history/continue.png"
-                    alt="Review"
-                    class="w-6 h-6 cursor-pointer"
-                  />
-                </td>
-              </tr>
-              <tr class="border-b">
-                <td class="p-2 break-words">Title</td>
-                <td class="p-2">Time</td>
-                <td class="p-2">-</td>
-                <td class="p-2">Question</td>
-                <td class="p-2 text-blue-500"><a href="#">Google</a></td>
-                <td class="p-2">Date</td>
-                <td class="p-2 flex justify-center gap-2">
-                  <img
-                    src="../img/history/trash.png"
-                    alt="Delete"
-                    class="w-6 h-6 cursor-pointer"
-                  />
-                  <img
-                    src="../img/history/continue.png"
-                    alt="Review"
-                    class="w-6 h-6 cursor-pointer"
-                  />
-                </td>
-              </tr>
-              <tr class="border-b">
-                <td class="p-2 break-words">Title</td>
-                <td class="p-2">Time</td>
-                <td class="p-2">-</td>
-                <td class="p-2">Question</td>
-                <td class="p-2 text-blue-500"><a href="#">Google</a></td>
-                <td class="p-2">Date</td>
-                <td class="p-2 flex justify-center gap-2">
-                  <img
-                    src="../img/history/trash.png"
-                    alt="Delete"
-                    class="w-6 h-6 cursor-pointer"
-                  />
-                  <img
-                    src="../img/history/continue.png"
-                    alt="Review"
-                    class="w-6 h-6 cursor-pointer"
-                  />
-                </td>
-              </tr>
-              <tr class="border-b">
-                <td class="p-2 break-words">Title</td>
-                <td class="p-2">Time</td>
-                <td class="p-2">-</td>
-                <td class="p-2">Question</td>
-                <td class="p-2 text-blue-500"><a href="#">Google</a></td>
-                <td class="p-2">Date</td>
-                <td class="p-2 flex justify-center gap-2">
-                  <img
-                    src="../img/history/trash.png"
-                    alt="Delete"
-                    class="w-6 h-6 cursor-pointer"
-                  />
-                  <img
-                    src="../img/history/continue.png"
-                    alt="Review"
-                    class="w-6 h-6 cursor-pointer"
-                  />
-                </td>
-              </tr>
-              <tr class="border-b">
-                <td class="p-2 break-words">nhac KPOP vza nhav cviethj</td>
-                <td class="p-2">12z:12</td>
-                <td class="p-2">-</td>
-                <td class="p-2">Question</td>
-                <td class="p-2 text-blue-500"><a href="#">Google</a></td>
-                <td class="p-2">Momday,12-12-2025</td>
-                <td class="p-2 flex justify-center gap-2">
-                  <img
-                    src="../img/history/trash.png"
-                    alt="Delete"
-                    class="w-6 h-6 cursor-pointer"
-                  />
-                  <img
-                    src="../img/history/continue.png"
-                    alt="Review"
-                    class="w-6 h-6 cursor-pointer"
-                  />
-                </td>
-              </tr>
-              <tr class="border-b">
-                <td class="p-2 break-words">Title</td>
-                <td class="p-2">Time</td>
-                <td class="p-2">-</td>
-                <td class="p-2">Question</td>
-                <td class="p-2 text-blue-500"><a href="#">Google</a></td>
-                <td class="p-2">Date</td>
-                <td class="p-2 flex justify-center gap-2">
-                  <img
-                    src="../img/history/trash.png"
-                    alt="Delete"
-                    class="w-6 h-6 cursor-pointer"
-                  />
-                  <img
-                    src="../img/history/continue.png"
-                    alt="Review"
-                    class="w-6 h-6 cursor-pointer"
-                  />
-                </td>
-              </tr>
-            </tbody>
-          </table>
+            COMPLETE
+          </p>
+          <hr class="h-[2px] xl:h-1 bg-black border-0" />
+          <div
+            class="w-full flex whitespace-nowrap text-center text-[8px] sm:text-xs lg:text-sm xl:text-base 2xl:lg"
+          >
+            <span class="w-1/4 py-1">Title</span>
+            <span class="border-l border-black w-[11%] p-1">Taken-time</span>
+            <span class="border-l border-black w-[9%] p-1">Correct</span>
+            <span class="border-l border-black w-[9%] p-1">Score</span>
+            <span class="border-l border-black w-[9%] p-1">Question</span>
+            <span class="border-l border-black w-1/5 py-1">Link</span>
+            <span class="border-l border-black w-[12.5%] py-1">Date</span>
+          </div>
+          <hr class="h-[1px] bg-black border-0" />
+          <div
+            id="complete-container"
+            class="w-full h-[40vh] max-h-[calc(100%-100px)] overflow-y-auto"
+          >
+            <!-- Complete quizzes will be inserted here -->
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- JavaScript for Mobile Menu -->
-    <script>
-      document
-        .getElementById("menuToggle")
-        .addEventListener("click", function () {
-          document.getElementById("mobileMenu").classList.toggle("hidden");
-        });
-    </script>
+    <script src="../js/db.js"></script>
+    <script src="../js/history.js"></script>
   </body>
 </html>
