@@ -1,4 +1,17 @@
-@keyframes gradient-move {
+.his-sw-acc-bt {
+    color: white;
+    background: #764ba2;
+    transition: background 0.3s ease;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 8px 16px;
+}
+
+.his-sw-acc-bt:hover {
+    background: #667eea;
+}
+
+/* @keyframes gradient-move {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
@@ -68,4 +81,4 @@ color: #333;
 .about-link:hover {
     background: #667eea;
 }
-
+ */
