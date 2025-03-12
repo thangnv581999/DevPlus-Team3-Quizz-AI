@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Generate Questions by AI</title>
     <link rel="stylesheet" href="../css/home.css" />
+    <link rel="icon" type="image/webp" href="../img/favicon.webp">
   </head>
   <body>
     <nav class="navbar">
@@ -12,10 +13,10 @@
         <div class="logo">Quiz AI</div>
       </a>
       <div class="user-info">
-        <span id="username">User</span>
+        <span class="username">User: <span id="username" style="font-weight: bold;"></span></span>
         <div class="score-display">Score: <span id="displayGrade">0</span></div>
-        <a href="history.html" class="about-link">History</a>
-        <button id="logoutBtn">Logout</button>
+        <a href="history.html" class="history-link" style="font-size: 20px; color: black; text-decoration: none;">History</a>
+        <button id="logoutBtn">Switch account</button>
       </div>
     </nav>
 
@@ -23,7 +24,7 @@
 
     <div class="main-content-1">
       <div class="quiz-generator">
-        <h1>Generate Questions by AI</h1>
+        <h1>Generate Questions</h1>
         <div class="controls">
           <input
             type="text"
@@ -35,8 +36,9 @@
           <label for="language"></label>
           <select id="language" required>
             <option value="" disabled selected>Select language</option>
-            <option value="vi">Tiếng Việt</option>
+            
             <option value="en">English</option>
+            <option value="vi">Tiếng Việt</option>
             <option value="fr">France</option>
           </select>
 
@@ -59,8 +61,8 @@
         </div>
 
         <div class="button-container">
+         
           <button id="generateButton" class="generate-btn">Generate</button>
-          <button id="historyButton" class="history-btn">History</button>
         </div>
       </div>
     </div>
@@ -98,13 +100,13 @@
     <!-- Modal xác nhận -->
     <div id="confirmModal" class="modal">
       <div class="modal-content">
-        <h2 id="confirmTitle">Xác nhận tạo Quiz?</h2>
+        <h2 id="confirmTitle">Confirm quiz creation?</h2>
         <p id="confirmMessage">
-          Bạn có chắc chắn muốn tạo và bắt đầu làm Quiz này không?
+          Are you sure you want to create and start this quiz?
         </p>
         <div class="modal-buttons">
-          <button id="confirmYes">Có</button>
-          <button id="confirmNo">Không</button>
+          <button id="confirmNo">NO</button>
+          <button id="confirmYes">YES</button>
         </div>
       </div>
     </div>
