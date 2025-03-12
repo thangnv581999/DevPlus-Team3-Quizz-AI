@@ -3,38 +3,37 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../css/history.css">
     <script src="https://cdn.tailwindcss.com"></script>
-    <title>History</title>
+    <link rel="icon" type="image/webp" href="../img/favicon.webp">
+    <title>Quiz History</title>
   </head>
   <body
     class="font-serif bg-[url(../img/history/history-bg.png)] bg-cover h-screen w-screen overflow-x-hidden"
   >
-    <div class="flex justify-center h-16 w-screen bg-white/50">
+    <div class="flex justify-center h-16 w-screen bg-white">
       <nav
-        class="bg-opacity-0 flex flex-wrap items-center justify-between h-16 w-full max-w-[1400px] mb-1 px-10"
+        class="bg-white flex flex-wrap items-center justify-between h-16 w-full max-w-[1400px] mb-1 px-10"
       >
         <div>
-          <span class="text-3xl text-[#6F20DFF7] font-bold">
+          <span class="text-3xl text-[#764ba2] font-bold">
             <a href="home.html">AI Quiz</a>
           </span>
           <span
-            class="text-xl text-[#6F20DFF7] border-l-[3px] border-black/10 p-2"
+            class="text-xl text-[#764ba2] border-l-[3px] border-black/10 p-2"
           >
             HISTORY
           </span>
         </div>
         <div
-          class="text-sm sm:text-xl whitespace-nowrap flex gap-14 overflow-x-auto w-auto"
+          class="text-sm sm:text-xl whitespace-nowrap flex justify-end gap-10 overflow-x-auto w-auto"
         >
-          <span>
-            User:
-            <a href="#" id="username">Username</a>
+          <span class="flex items-center justify-end w-[200px]">
+            User:&nbsp
+            <a href="#" id="username" class="font-bold text-ellipsis overflow-hidden "></a>
           </span>
-          <span>
-            <a href="about.html">About</a>
-          </span>
-          <span>
-            <a href="#" id="logoutBtn">Log out</a>
+          <span class="his-sw-acc-bt">
+            <a href="#" id="logoutBtn" >Switch Account</a>
           </span>
         </div>
       </nav>
@@ -44,9 +43,9 @@
       class="relative h-screen max-h-[1400px] w-full max-w-[1400px] mt-[50px] mx-auto"
     >
       <div
-        class="relative z-10 border bg-white/70 rounded mx-4 sm:mx-6 lg:mx-16 xl:mx-24 2xl:mx-28"
+        class="relative z-10 rounded mx-4 sm:mx-6 lg:mx-16 xl:mx-24 2xl:mx-28"
       >
-        <div class="h-[45vh] max-h-[700px] w-full">
+        <div class="bg-white h-[45vh] max-h-[500px] w-full my-8">
           <p
             class="text-[#FB3D3D] font-bold px-2 text-lg lg:text-xl xl:text-2xl 2xl:3xl"
           >
@@ -72,7 +71,7 @@
             <!-- Incomplete quizzes will be inserted here -->
           </div>
         </div>
-        <div class="h-[45vh] max-h-[700px] w-full">
+        <div class="bg-white h-[45vh] max-h-[500px] w-full my-8">
           <p
             class="text-green-500 font-bold px-2 text-sm text-base lg:text-lg xl:text-2xl 2xl:3xl"
           >
