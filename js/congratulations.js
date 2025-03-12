@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         // Get current quiz ID from localStorage
-        const currentQuizId = parseInt(localStorage.getItem('currentQuizId'));
+        const currentQuizId = parseInt(localStorage.getItem('quizId'));
         if (!currentQuizId) {
             console.error('No current quiz ID found');
             return;
