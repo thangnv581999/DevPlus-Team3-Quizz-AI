@@ -83,7 +83,7 @@ const urlParams = new URLSearchParams(window.location.search);
 const quizId = urlParams.get("quizId");
 console.log(quizId);
 let data;
-let currentLanguage = "vi";
+let currentLanguage = "en";
 let topic;
 let username;
 let id;

@@ -103,7 +103,7 @@ async function displayQuizHistory() {
                 <li class="w-1/4 break-all line-clamp-1 my-2 px-2" title="${quiz.tittle}">${quiz.tittle}</li>
                 <li class="w-[11%] text-center break-all line-clamp-1 my-2 px-2">${formatTime(quiz.timeSpent)}</li>
                 <li class="w-[9%] text-center break-all line-clamp-1 my-2 px-2">${Math.round(quiz.score * quiz.questions.length / 10)}</li>
-                <li class="w-[9%] text-center break-all line-clamp-1 my-2 px-2">${quiz.score.toFixed(1)}</li>
+                <li class="w-[9%] text-center break-all line-clamp-1 my-2 px-2">${quiz.score}</li>
                 <li class="w-[9%] text-center break-all line-clamp-1 my-2 px-2">${quiz.questions.length}</li>
                 <li class="w-1/5 break-all line-clamp-1 my-2 px-2 text-center">
                     <a href="result.html" onclick="localStorage.setItem('currentQuizId', ${quiz.id})" target="_blank" class="text-blue-600 hover:text-blue-800 underline">
