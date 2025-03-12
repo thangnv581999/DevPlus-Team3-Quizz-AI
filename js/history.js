@@ -118,11 +118,6 @@ async function displayQuizHistory() {
                         <img src="../img/history/trash.png" alt="" title="Delete" class="w-[1.5em] h-[1.5em]">
                     </a>
                 </li>
-                <li class="my-2 px-2">
-                    <a href="review.html?quizId=${quiz.id}">
-                        <img src="../img/history/review.png" alt="" title="Review" class="w-[1.5em] h-[1.5em]">
-                    </a>
-                </li>
             </ul>
         `).join('');
 
